@@ -18,6 +18,7 @@ sideBar___init($active_menu, $user_allowed_permissions, $is_super_admin);
 function sideBar___init($active_page, $allowed_permissions, $is_super_admin)
 {
     $menus = [
+        ['title'=>'Festive Season','icon'=>'menu-icon tf-icons bx bx-sparkles','link'=>SITE_URL.'admin/festivals/','permission'=>'app_settings'],
         ['title'=>'Online Users','icon'=>'menu-icon tf-icons bx bx-user-circle','link'=>SITE_URL.'admin/online-users/','permission'=>'sale'],
         ['title'=>'Online Orders','icon'=>'menu-icon tf-icons bx bx-shopping-bag','link'=>SITE_URL.'admin/online-orders/','permission'=>'sale'],
         ['title'=>'Appearance','icon'=>'menu-icon tf-icons bx bx-palette','link'=>SITE_URL.'admin/appearance/','permission'=>'dashboard'],
@@ -151,7 +152,7 @@ function sideBar___init($active_page, $allowed_permissions, $is_super_admin)
         ]
     ];
 
-    $menuOrder=['Dashboard','Patients','Consultations','Treatment Sites','Online Orders','Online Users','Sales','Invoices','Products','Product Categories','Inventory','Footer','Pages','Menus','Users','User Groups','User Designations','Address States','Appearance','Settings','Support','SEO Maker','Admin Logs'];
+    $menuOrder=['Dashboard','Patients','Consultations','Treatment Sites','Online Orders','Online Users','Sales','Invoices','Products','Product Categories','Inventory','Festive Season','Footer','Pages','Menus','Users','User Groups','User Designations','Address States','Appearance','Settings','Support','SEO Maker','Admin Logs'];
     usort($menus,fn($a,$b)=>(array_search($a['title'],$menuOrder,true)===false?999:array_search($a['title'],$menuOrder,true))<=>(array_search($b['title'],$menuOrder,true)===false?999:array_search($b['title'],$menuOrder,true)));
     sideBar($menus, $active_page, $allowed_permissions, $is_super_admin);
 }

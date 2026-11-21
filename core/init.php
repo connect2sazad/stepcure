@@ -26,3 +26,5 @@ require_once __DIR__ . '/admin-dashboard.php';
 require_once __DIR__ . '/admin-maintenance.php';
 
 require_once __DIR__ . '/admin-support.php';
+
+require_once __DIR__ . '/festivals.php';

@@ -26,6 +26,7 @@
     <?php if (in_array(($page ?? ''), ['about', 'services', 'products'], true)): ?>
         <script type="module" src="<?= theme_url('assets/js/stepcure-pages-3d.js') ?>"></script>
     <?php endif; ?>
+<?php if (($page ?? '') === 'home') include __DIR__ . '/festival-overlay.php'; ?>
 </body>
 
 </html>
