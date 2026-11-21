@@ -23,43 +23,10 @@
 
 
 
-<div class="container py-5">
-    <div class="row justify-content-center product-categories">
-        <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4">
-            <a href="./products/women-s-footwear">
-                <div class="category-card">
-                    <img src="<?= theme_url('assets/img/products/women-footwear.png') ?>" alt="Women's Footwear" />
-                    <p>Women's Footwear</p>
-                </div>
-            </a>
-        </div>
-        <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4">
-            <a href="./products/men-s-footwear">
-                <div class="category-card">
-                    <img src="<?= theme_url('assets/img/products/men-footwear.png') ?>" alt="Men's Footwear" />
-                    <p>Men's Footwear</p>
-                </div>
-            </a>
-        </div>
-        <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4">
-            <a href="./products/foot-orthotics">
-                <div class="category-card">
-                    <img src="<?= theme_url('assets/img/products/foot-orthotics.png') ?>" alt="Foot Orthotics" />
-                    <p>Foot Orthotics</p>
-                </div>
-            </a>
-        </div>
-        <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4">
-            <a href="./products/custom-footwear">
-                <div class="category-card">
-                    <img src="<?= theme_url('assets/img/products/custom-footwear.png') ?>" alt="Custom Footwear" />
-                    <p>Custom Footwear</p>
-                </div>
-            </a>
-        </div>
-    </div>
-</div>
-<!-- product categories end -->
+<section class="sc-store"><span class="sc-kicker">FIND YOUR EVERYDAY SUPPORT</span><h1>Shop the collection.</h1><div class="sc-shop-grid">
+<?php $categories=sc_query('SELECT c.*, (SELECT p.product_images FROM products p WHERE p.category_id=c.id AND p.is_active=1 AND p.is_deleted=0 ORDER BY p.id LIMIT 1) AS product_images FROM product_categories c WHERE c.is_active=1 AND c.is_deleted=0 ORDER BY c.category_name')->get_result();while($c=$categories->fetch_assoc()): ?>
+<a class="sc-shop-card" href="<?= sc_url('products/'.rawurlencode($c['slug'])) ?>"><img src="<?= sc_e(sc_image($c)) ?>" alt="<?= sc_e($c['category_name']) ?>" loading="lazy"><h2><?= sc_e($c['category_name']) ?> ↗</h2></a>
+<?php endwhile; ?></div></section><!-- product categories end -->
 <div class="sc-medical-strip"><span>PERSONALIZED FIT</span><span>FOOTCARE-LED DESIGN</span><span>EVERYDAY COMFORT</span><span>CLINICAL GUIDANCE</span></div>
 
 

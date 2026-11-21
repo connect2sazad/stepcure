@@ -1,3 +1,4 @@
+<p><a class="btn btn-primary" href="../online-orders/">Online store orders</a></p>
 <?php
 
 $sales_list = fetchAsArray(getSalesList());

@@ -46,16 +46,14 @@ if (isset($_SESSION[CLIENT_USER_AUTH]) && !empty($_SESSION[CLIENT_USER_AUTH])) {
     <link rel="stylesheet" href="<?= theme_url('assets/css/style.css') ?>">
     
 
-    <?php if (url_contains('signin') || url_contains('signup')): ?>
-        <!-- signin CSS -->
-        <link rel="stylesheet" href="<?= theme_url('assets/css/signup-style.css') ?>">
-    <?php endif; ?>
+    
 
     <!-- custom CSS -->
     <link rel="stylesheet" href="<?= theme_url('assets/css/custom.css') ?>">
 
     <?php if (($page ?? '') === 'home'): ?><link rel="stylesheet" href="<?= theme_url('assets/css/movement.css') ?>"><?php endif; ?>
     <link rel="stylesheet" href="<?= theme_url('assets/css/experience.css') ?>">
+<link rel="stylesheet" href="<?= theme_url('assets/css/storefront.css') . '?v=' . filemtime(__DIR__ . '/assets/css/storefront.css') ?>">
     <script defer src="<?= theme_url('assets/js/experience.js') ?>"></script>
     <!-- Fireworks.js CDN -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/fireworks-js@2.10.8/dist/index.umd.min.js"></script>

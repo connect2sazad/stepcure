@@ -10,6 +10,7 @@ if (session_status() == PHP_SESSION_NONE) {
 $theme = ACTIVE_THEME;
 $page = $_GET['page'] ?? 'home';
 $segments = explode('/', $page);
+sc_dispatch($page);
 
 // Default page path
 $page_file = "themes/$theme/$page.php";
@@ -34,7 +35,7 @@ if ($segments[0] === 'products') {
             // If product slug exists, try to load the single product
             if ($product_slug) {
                 // $product = getProductBySlugAndCategory($product_slug, $category['id']); // <-- You’ll create this function
-                $product = "baptisia";
+                $product = sc_query('SELECT p.*, c.slug AS category_slug FROM products p JOIN product_categories c ON c.id=p.category_id WHERE c.slug=? AND p.slug=? AND p.is_active=1 AND p.is_deleted=0 AND c.is_active=1 AND c.is_deleted=0', 'ss', [$category_slug,$product_slug])->get_result()->fetch_assoc();
 
                 if ($product) {
                     include "themes/$theme/product_single.php";

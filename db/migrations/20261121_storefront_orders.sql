@@ -1,0 +1,25 @@
+CREATE TABLE IF NOT EXISTS web_orders (
+ id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+ order_number VARCHAR(32) NOT NULL UNIQUE,
+ online_user_id INT NOT NULL,
+ checkout_token CHAR(64) NOT NULL UNIQUE,
+ delivery TEXT NOT NULL,
+ subtotal DECIMAL(12,2) NOT NULL,
+ tax DECIMAL(12,2) NOT NULL,
+ total DECIMAL(12,2) NOT NULL,
+ payment_method VARCHAR(20) NOT NULL,
+ payment_status VARCHAR(20) NOT NULL DEFAULT 'unpaid',
+ status VARCHAR(20) NOT NULL DEFAULT 'placed',
+ created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ INDEX customer_orders (online_user_id,created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS web_order_items (
+ id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+ order_id BIGINT UNSIGNED NOT NULL,
+ product_id INT NOT NULL,
+ product_name VARCHAR(100) NOT NULL,
+ quantity INT NOT NULL,
+ unit_price DECIMAL(12,2) NOT NULL,
+ line_total DECIMAL(12,2) NOT NULL,
+ FOREIGN KEY (order_id) REFERENCES web_orders(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

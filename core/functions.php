@@ -399,11 +399,8 @@ function getTrashedMenusList()
 
 function getProductCategoryBySlug($slug)
 {
-    $query = "SELECT * FROM `product_categories` WHERE `product_categories`.`slug` = '$slug' AND `product_categories`.`is_active` = 1 AND `product_categories`.`is_deleted` = 0;";
-    $category = runQuery($query);
-    return $category;
+    return sc_query('SELECT * FROM product_categories WHERE slug=? AND is_active=1 AND is_deleted=0', 's', [$slug])->get_result();
 }
-
 function getUseridById($id)
 {
     $query = WHERE('users', 'id', $id);

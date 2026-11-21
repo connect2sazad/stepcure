@@ -860,68 +860,12 @@ function getInvoiceItemsByInvoiceId($id)
     return $site;
 }
 
-function onlineUserRegister($data){
-// ---
-}
-
-function onlineUserLogin($data)
-{
-
-    $query = WHERE('online_users', 'email', $data['email']);
-    $run_query = runQuery($query);
-
-
-    $response = array();
-
-    if (mysqli_num_rows($run_query) > 0) {
-
-        $fetch = mysqli_fetch_assoc($run_query);
-
-        if ($fetch['is_active'] != 1) {
-            $response['status'] = 'failed';
-            $response['message'] = "Your account has been deactivated!";
-            return $response;
-        }
-
-        if ($fetch['is_deleted'] == 1) {
-            $response['status'] = 'failed';
-            $response['message'] = "No such User Found!";
-            return $response;
-        }
-
-        if (password_verify($data['password'], $fetch['password']) == 1) {
-            
-            // Start the session if needed
-            if (session_status() == PHP_SESSION_NONE) {
-                session_start();
-            }
-            $_SESSION[CLIENT_USER_AUTH] = $fetch['email'];
-
-            $user = $_SESSION[CLIENT_USER_AUTH];
-
-            $user_data = WHERE('online_users', 'email', $data['email']);
-            $user_data = runQuery($user_data);
-            $user_data = mysqli_fetch_assoc($user_data);
-
-            $response['status'] = 'success';
-            $response['message'] = "Login Successfull!";
-            $response['data'] = $user_data;
-
-        } else {
-            $response['status'] = 'failed';
-            $response['message'] = "Incorrect Credentials!";
-        }
-    } else {
-        $response['status'] = 'failed';
-        $response['message'] = "No such User Found!";
-    }
-    return $response;
-}
+function onlineUserRegister($data) { return sc_auth_register($data); }
+function onlineUserLogin($data) { return sc_auth_login($data); }
 
 function getOnlineUserByEmail($email)
 {
-    $query = WHERE('online_users', 'email', $email);
-    $user = runQuery($query);
+    $user = sc_query('SELECT * FROM online_users WHERE email=? AND is_active=1 AND is_deleted=0', 's', [$email])->get_result();
     $user = mysqli_fetch_assoc($user);
     return $user;
 }
@@ -934,7 +878,7 @@ function getMembersByOnlineUser($online_user_id)
         'is_deleted' => 0
     ];
     $query = WHEREm('patients', $conditions);
-    echo $query; exit;
+
     $run_query = runQuery($query);
     return $run_query;
 }
