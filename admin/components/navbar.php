@@ -55,7 +55,7 @@ $avatar_border_gradient = "conic-gradient($treatment_site_color 0deg 120deg, $us
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <!-- Search -->
         <div class="navbar-nav align-items-center">
-            <form class="nav-item d-flex align-items-center gap-2" method="get" action="<?= systemVariable('SITE_HOME') ?>admin/search/"><input type="search" class="form-control border-0 shadow-none" name="q" minlength="2" maxlength="100" placeholder="Search anything..." aria-label="Search admin records and features" required><button class="btn btn-sm btn-outline-primary" type="submit" aria-label="Search"><i class="bx bx-search"></i></button></form>
+            <div class="sc-search-box"><form class="nav-item d-flex align-items-center gap-2" method="get" action="<?= systemVariable('SITE_HOME') ?>admin/search/"><input type="search" class="form-control border-0 shadow-none" id="sc-global-search" data-suggest-url="<?= systemVariable('SITE_HOME') ?>admin/search/suggest.php" aria-controls="sc-search-suggestions" aria-expanded="false" autocomplete="off" value="<?= sc_e($_GET['q']??'') ?>" name="q" minlength="2" maxlength="100" placeholder="Search anything..." aria-label="Search admin records and features" required><button class="btn btn-sm btn-outline-primary" type="submit" aria-label="Search"><i class="bx bx-search"></i></button></form><div id="sc-search-suggestions" class="sc-search-suggestions" aria-label="Search suggestions" hidden></div></div>
         </div>
         <!-- /Search -->
 

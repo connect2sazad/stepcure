@@ -15,7 +15,7 @@ function sc_stock_cancel($orderId,$actor) {
  $db=sc_db();$db->begin_transaction();try{$order=sc_query('SELECT * FROM web_orders WHERE id=? FOR UPDATE','i',[$orderId])->get_result()->fetch_assoc();if(!$order)throw new RuntimeException('Order not found.');if($order['status']==='cancelled'){$db->commit();return;}if($order['status']!=='placed')throw new RuntimeException('Only placed orders can be cancelled.');
  $rows=sc_query('SELECT i.*,s.quantity AS restore_quantity FROM web_order_stock s JOIN inventory i ON i.id=s.inventory_id WHERE s.order_id=? ORDER BY i.product_id,i.id FOR UPDATE','i',[$orderId])->get_result()->fetch_all(MYSQLI_ASSOC);
  foreach($rows as $row){$new=$row['quantity']+$row['restore_quantity'];sc_query('UPDATE inventory SET quantity=?,updated_by=? WHERE id=?','iii',[$new,$actor,$row['id']]);sc_stock_log($row,(int)$row['quantity'],$new,$actor,'Cancelled online order #'.$orderId);}
- sc_query("UPDATE web_orders SET status='cancelled' WHERE id=?",'i',[$orderId]);$db->commit();}catch(Throwable $e){$db->rollback();throw $e;}
+ sc_query("UPDATE web_orders SET status='cancelled' WHERE id=?",'i',[$orderId]);sc_audit('order.cancelled',$orderId);$db->commit();}catch(Throwable $e){$db->rollback();throw $e;}
 }
 function sc_admin_guard($module,$action,$request) {
  if(session_status()===PHP_SESSION_NONE)session_start();
@@ -34,6 +34,6 @@ function sc_add_stock($request) {
  sc_query('SELECT id FROM products WHERE id=? FOR UPDATE','i',[$productId]);
  $row=sc_query('SELECT * FROM inventory WHERE product_id=? AND site_id=? ORDER BY id LIMIT 1 FOR UPDATE','ii',[$productId,$siteId])->get_result()->fetch_assoc();
  if(!$row){$last=sc_query('SELECT inventoryid FROM inventory ORDER BY inventoryid DESC LIMIT 1 FOR UPDATE')->get_result()->fetch_assoc();$serial=($last['inventoryid']??0)+1;sc_query('INSERT INTO inventory (inventoryid,site_id,product_id,quantity,created_by,updated_by) VALUES (?,?,?,0,?,?)','iiiii',[$serial,$siteId,$productId,$actor['id'],$actor['id']]);$row=['id'=>$db->insert_id,'site_id'=>$siteId,'product_id'=>$productId,'quantity'=>0];}
- $new=$row['quantity']+$qty;sc_query('UPDATE inventory SET quantity=?,updated_by=? WHERE id=?','iii',[$new,$actor['id'],$row['id']]);sc_stock_log($row,(int)$row['quantity'],$new,$actor['id'],trim($request['remarks']??'Stock received'),$invoice);$db->commit();return ['status'=>'success','message'=>'Stock received and movement recorded.'];}catch(Throwable $e){$db->rollback();throw $e;}
+ $new=$row['quantity']+$qty;sc_query('UPDATE inventory SET quantity=?,updated_by=? WHERE id=?','iii',[$new,$actor['id'],$row['id']]);sc_stock_log($row,(int)$row['quantity'],$new,$actor['id'],trim($request['remarks']??'Stock received'),$invoice);sc_audit('inventory.received',$row['id']);$db->commit();return ['status'=>'success','message'=>'Stock received and movement recorded.'];}catch(Throwable $e){$db->rollback();throw $e;}
  }catch(mysqli_sql_exception $e){error_log($e->getMessage());return ['status'=>'failed','message'=>'Stock could not be saved. Please try again.'];}catch(RuntimeException $e){return ['status'=>'failed','message'=>$e->getMessage()];}
 }

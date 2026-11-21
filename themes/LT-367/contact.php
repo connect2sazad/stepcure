@@ -17,7 +17,7 @@
 <!-- ================ contact section start ================= -->
 <section class="contact-section section_padding">
     <div class="container">
-        <div class="sc-visit-card"><span class="sc-page-kicker">YOUR NEXT STEP</span><h2>Good movement begins<br>with a conversation.</h2><p>Talk to our team about clinical care, custom orthotics or finding the right footwear.</p><a href="tel:+919861572334">Call +91 98615 72334 ↗</a><span class="sc-orbit-label" aria-hidden="true">CARE THAT<br>COMES FULL CIRCLE</span></div>
+        <div class="sc-visit-card"><span class="sc-page-kicker">YOUR NEXT STEP</span><h2>Good movement begins<br>with a conversation.</h2><p>Talk to our team about clinical care, custom orthotics or finding the right footwear.</p><a href="tel:<?= sc_e(preg_replace('/[^0-9+]/','',sc_public_setting('website_phone','+91 98615 72334'))) ?>">Call <?= sc_e(sc_public_setting('website_phone','+91 98615 72334')) ?> ↗</a><span class="sc-orbit-label" aria-hidden="true">CARE THAT<br>COMES FULL CIRCLE</span></div>
 
 
         <div class="row">
@@ -64,21 +64,21 @@
                 <div class="media contact-info">
                     <span class="contact-info__icon"><i class="ti-home"></i></span>
                     <div class="media-body">
-                        <h3>Bhubaneswar, Khordha</h3>
-                        <p>Odisha - 752054, India</p>
+                        <h3><?= sc_e(sc_public_setting('website_address','Bhubaneswar, Odisha')) ?></h3>
+                        
                     </div>
                 </div>
                 <div class="media contact-info">
                     <span class="contact-info__icon"><i class="ti-tablet"></i></span>
                     <div class="media-body">
-                        <h3>+91 98615 72334</h3>
-                        <p>Mon to Sat 9am to 6pm</p>
+                        <h3><?= sc_e(sc_public_setting('website_phone','+91 98615 72334')) ?></h3>
+                        <p><?= sc_e(sc_public_setting('website_hours','Mon to Sat, 9am to 6pm')) ?></p>
                     </div>
                 </div>
                 <div class="media contact-info">
                     <span class="contact-info__icon"><i class="ti-email"></i></span>
                     <div class="media-body">
-                        <h3>say_hi@stepcure.co</h3>
+                        <h3><?= sc_e(sc_public_setting('website_email','say_hi@stepcure.co')) ?></h3>
                         <p>Send us your query anytime!</p>
                     </div>
                 </div>

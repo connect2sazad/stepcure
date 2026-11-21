@@ -27,29 +27,29 @@ function sideBar___init($active_page, $allowed_permissions, $is_super_admin)
             'link'  => SITE_URL . 'admin/',
             'permission' => 'dashboard'
         ],
-        [
-            'title' => 'Pages',
-            'icon'  => 'menu-icon tf-icons bx bx-file-blank',
-            'link'  => SITE_URL . 'admin/pages',
-            'permission' => 'pages'
-        ],
-        [
-            'title' => 'Blocks',
-            'icon'  => 'menu-icon tf-icons bx bx-code-block',
-            'link'  => SITE_URL . 'admin/#blocks',
-            'permission' => 'blocks'
-        ],
-        [
-            'title' => 'Menus',
-            'icon'  => 'menu-icon tf-icons bx bx-menu',
-            'link'  => SITE_URL . 'admin/menus',
-            'permission' => 'menus'
-        ],
+        // [
+        //     'title' => 'Pages',
+        //     'icon'  => 'menu-icon tf-icons bx bx-file-blank',
+        //     'link'  => SITE_URL . 'admin/pages',
+        //     'permission' => 'pages'
+        // ],
+        // [
+        //     'title' => 'Blocks',
+        //     'icon'  => 'menu-icon tf-icons bx bx-code-block',
+        //     'link'  => SITE_URL . 'admin/#blocks',
+        //     'permission' => 'blocks'
+        // ],
+        // [
+        //     'title' => 'Menus',
+        //     'icon'  => 'menu-icon tf-icons bx bx-menu',
+        //     'link'  => SITE_URL . 'admin/menus',
+        //     'permission' => 'menus'
+        // ],
         [
             'title' => 'Footer',
             'icon'  => 'menu-icon tf-icons far fa-file-alt',
-            'link'  => SITE_URL . 'admin/#footer',
-            'permission' => 'footer'
+            'link'  => SITE_URL . 'admin/footer/',
+            'permission' => 'app_settings'
         ],
         [
             'title' => 'Product Categories',
@@ -151,6 +151,8 @@ function sideBar___init($active_page, $allowed_permissions, $is_super_admin)
         ]
     ];
 
+    $menuOrder=['Dashboard','Patients','Consultations','Treatment Sites','Online Orders','Online Users','Sales','Invoices','Products','Product Categories','Inventory','Footer','Pages','Menus','Users','User Groups','User Designations','Address States','Appearance','Settings','Support','SEO Maker','Admin Logs'];
+    usort($menus,fn($a,$b)=>(array_search($a['title'],$menuOrder,true)===false?999:array_search($a['title'],$menuOrder,true))<=>(array_search($b['title'],$menuOrder,true)===false?999:array_search($b['title'],$menuOrder,true)));
     sideBar($menus, $active_page, $allowed_permissions, $is_super_admin);
 }
 

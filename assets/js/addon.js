@@ -87,8 +87,8 @@ $(document).ready(function () {
   }
 
   // search in select
-  if ($.fn.select2) $('select').not('[name="list_size"],.dataTables_length select').each(function(){if(!$(this).hasClass('select2-hidden-accessible')) $(this).select2({width:'100%'});});
-  $('.select2-container').removeAttr('style');
+  if ($.fn.select2) $('select[data-enhance="search"]').each(function(){if(!$(this).hasClass('select2-hidden-accessible')) $(this).select2({width:'100%'});});
+
 
 });
 

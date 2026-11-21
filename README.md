@@ -47,3 +47,23 @@ The sidebar includes Online Users, Online Orders and Appearance. Online customer
 The header search submits to `/admin/search/`. Search covers permitted features, product/category records, customers, orders, staff, patients, invoices, consultation/report records, sites, sales and page content. It does not read arbitrary files or index PDF/image contents. Consultation results retain site restrictions for users outside the admin groups.
 
 Appearance adds Red Blood, Chess Board and Cartoon presets. Themes are saved per account. SQL-paged tables skip DataTables entirely, including after AJAX updates, so there is one pagination control per table. Native selects are used for page sizes; other enhanced selects are initialized only once. The opaque sidebar brand reads StepCure, and its fading scroll-shadow layer is removed.
+
+### Dashboard, search assistance and personal follow-ups
+
+The dashboard uses bounded recent-record widgets without DataTables. Reporting periods are 7/30/90/365 days or all time; clinic sales value is distinguished from payment receipts. The permission-aware attention queue highlights pending reports, orders awaiting dispatch, delivered orders with unpaid COD and low-stock locations (threshold five units). Quick actions and privately owned follow-up tasks with optional due dates are available. Existing dashboard arrangement remains per-browser/per-user.
+
+Apply `db/migrations/20261122_admin_tasks.sql` (or run `C:\xampp\php\php.exe tests/admin-tasks-setup.php`) on other deployments. Applied to the current local database. The header search provides debounced suggestions, arrow-key navigation and Ctrl/Cmd+K focus. Results are grouped, filterable and offer feature-word spelling suggestions when empty. It does not index PDF/image text.
+
+Doctor, Aurora, Sandstone, Blueprint, Botanical and Neon Atelier are additional per-user appearance presets. Admin footer surfaces are transparent. Wide tables scroll within their own containers; dashboard widgets wrap their content instead of widening the page.
+
+Run `C:\xampp\php\php.exe tests/admin-dashboard.php` for dashboard and task ownership checks. Temporary task fixtures are removed after the test.
+
+### Website details, footer, support and admin auditing
+
+Settings now manages public phone, email, address, opening hours, WhatsApp and social URLs. The Footer sidebar item opens a dedicated editor for the shared public footer text and CTA. Both require the existing `app_settings:update` permission. New values are stored in `systemv`, with existing site details used as defaults; no new database table is required. Contact/footer changes appear on the next public page request.
+
+Follow-up forms submit asynchronously with inline status messages; normal form submissions remain available as a fallback. Select enhancement is opt-in (`data-enhance="search"`), avoiding native/Select2 double controls. Admin pages explicitly request an empty favicon; the public website icon is preserved.
+
+Support includes a bounded ticket list, creation, replies, resolution/reopening, per-user access restrictions outside administrator groups, CSRF protection and safe PDF/image attachments (three files, 1 MB each). New attachments are protected by the root Apache rewrite rule and served only through an authenticated download controller. Legacy attachment references remain supported. Tickets are local; this does not send email or contact an external support service.
+
+New catalog, stock, order, customer access, appearance, follow-up, website-setting and support changes write actor/action/record identifiers to `admin_updates`. Private follow-up text and passwords are excluded. Existing API mutations receive a fallback audit record when their handler did not already write one. Run `C:\xampp\php\php.exe tests/admin-maintenance.php` to verify follow-ups, audit entries, support workflows, footer propagation, URL validation and admin favicon behavior; temporary fixtures are removed.

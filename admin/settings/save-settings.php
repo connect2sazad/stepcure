@@ -15,6 +15,7 @@ $user_group_permissions  = USER_GROUP_ALLOWED_PERMISSIONS;
 
 $current_admin = $_SESSION[USER_AUTH];
 
+try { sc_admin_guard('app_settings','update',$_POST);$publicKeys=array_values(array_filter(array_keys(sc_site_fields()),fn($key)=>str_starts_with($key,'website_') && array_key_exists($key,$_POST)));if($publicKeys)sc_save_public_settings($_POST,$publicKeys); } catch(Throwable $e){http_response_code(422);exit(sc_e($e instanceof mysqli_sql_exception?'Settings could not be saved.':$e->getMessage()));}
 $SITE_NAME = isset($_POST['SITE_NAME']) ? $_POST['SITE_NAME'] : '';
 $default_site_color = isset($_POST['default_site_color']) ? $_POST['default_site_color'] : '';
 $default_user_group_color = isset($_POST['default_user_group_color']) ? $_POST['default_user_group_color'] : '';

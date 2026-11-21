@@ -20,3 +20,9 @@ require_once __DIR__ . '/admin-performance.php';
 require_once __DIR__ . '/admin-appearance.php';
 
 require_once __DIR__ . '/admin-console.php';
+
+require_once __DIR__ . '/admin-dashboard.php';
+
+require_once __DIR__ . '/admin-maintenance.php';
+
+require_once __DIR__ . '/admin-support.php';

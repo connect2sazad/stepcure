@@ -27,7 +27,9 @@ $request_type = $_POST['request_type'] ?? '';
 if (function_exists($request_type)) {
 
     // remove api key
-    $response = $request_type(secure_API_KEY($_POST));
+    if(session_status()===PHP_SESSION_NONE)session_start();$GLOBALS['sc_audit_written']=false;
+$response = $request_type(secure_API_KEY($_POST));
+if(!empty($_SESSION[USER_AUTH]) && is_array($response) && ($response['status']??'')==='success' && empty($GLOBALS['sc_audit_written']) && preg_match('/^(add|update|delete|restore|send|save|finalize|admin_login|admin_logout)/',$request_type))sc_audit('api.'.$request_type,$response['id']??($_POST['id']??null));
     $response = json_encode($response);
     // echo json_encode($response);
     echo $response;

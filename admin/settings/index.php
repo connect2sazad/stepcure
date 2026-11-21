@@ -71,7 +71,7 @@ $treatment_site_options = getSitesList();
                                 <div class="card mb-4">
                                     <div class="card-body" id="section-data">
 
-                                        <form id="general-site-settings" action="save-settings.php" method="post" enctype="multipart/form-data">
+                                        <form id="general-site-settings" action="save-settings.php" method="post" enctype="multipart/form-data"><?= sc_token() ?><section class="mb-4"><h5>Website contact information</h5><p>Displayed on the public contact page and footer.</p><?php foreach(sc_site_fields() as $publicKey=>$field):if(!str_starts_with($publicKey,'website_'))continue; ?><label class="d-block mb-3"><?= sc_e($field[0]) ?><input class="form-control" name="<?= $publicKey ?>" maxlength="<?= $field[2] ?>" value="<?= sc_e(sc_public_setting($publicKey,$field[1])) ?>"></label><?php endforeach; ?><a href="../footer/">Customize website footer</a></section>
 
                                             <div class="row">
 
@@ -118,7 +118,7 @@ $treatment_site_options = getSitesList();
                                                             echo '<option selected disabled>Select Default Site</option>';
                                                             while ($row = mysqli_fetch_assoc($treatment_site_options)) {
                                                                 // ignore if super user group
-                                                                if ($row['is_super_admin'] == 1) continue;
+                                                                if (($row['is_super_admin'] ?? 0) == 1) continue;
 
                                                                 $selected = systemVariable('default_site_id') == $row['id'] ? 'selected' : '';
                                                                 $state_name = getAddressStateById($row['address_state']);
@@ -141,7 +141,7 @@ $treatment_site_options = getSitesList();
                                                             echo '<option selected disabled>Select Default User Group</option>';
                                                             while ($row = mysqli_fetch_assoc($user_group_options)) {
                                                                 // ignore if super user group
-                                                                if ($row['is_super_admin'] == 1) continue;
+                                                                if (($row['is_super_admin'] ?? 0) == 1) continue;
 
                                                                 $selected = systemVariable('default_user_group') == $row['id'] ? 'selected' : '';
 

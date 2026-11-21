@@ -118,7 +118,7 @@ function loadAdminFooterScripts()
       <script src="' . systemVariable('SITE_DIR') . 'assets/js/addon.js?v=' . filemtime(__DIR__ . '/../assets/js/addon.js') . '"></script>
     ';
 
-    return $footer_scripts;
+    return $footer_scripts . '<script defer src="' . systemVariable('SITE_DIR') . 'assets/js/admin-search.js?v=1"></script>';
 }
 
 function loadCustomCss($css_loc)
@@ -156,10 +156,7 @@ function loadAdminTitleAndFavicon(...$basic)
     $favicon = systemVariable('SITE_DIR') . "assets/img/favicon/favicon.ico";
 
     $compound = '
-            <title>' . $title . '</title>
-            <link rel="shortcut icon" href="' . $favicon . '">
-            <link rel="apple-touch-icon image_src" href="' . $favicon . '">
-            <link rel="icon" href="' . $favicon . '">
+            <title>' . $title . '</title><link rel="icon" href="data:,">
         ';
 
     return $compound;
@@ -338,17 +335,15 @@ function getLatestAdminUpdates($count = 'all')
 
 function addNewAdminUpdate($updated_by, $update_text)
 {
-    $conn = get_conn(); // get mysqli connection
+    $GLOBALS['sc_audit_written']=true; $conn = get_conn(); // get mysqli connection
 
     // ✅ Escape both values safely
     $updated_by  = mysqli_real_escape_string($conn, $updated_by);
     $update_text = mysqli_real_escape_string($conn, $update_text);
 
     $query = "INSERT INTO `admin_updates` (`updated_by`, `update_text`) VALUES ('$updated_by', '$update_text')";
-    return runQuery($query);
+    $GLOBALS['sc_audit_written']=true; return runQuery($query);
 }
-
-
 
 function getMenuById($id)
 {
