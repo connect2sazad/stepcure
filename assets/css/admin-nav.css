@@ -1,0 +1,123 @@
+/* Base navbar styling */
+.admin-navbar {
+    background-color: #23282d;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    height: 48px;
+    border-bottom: 1px solid #191e23;
+    position: relative;
+    z-index: 1000;
+    flex-wrap: nowrap;
+}
+
+/* Logo section */
+.admin-navbar .logo {
+    display: flex;
+    align-items: center;
+}
+
+.admin-navbar .logo img {
+    height: 24px;
+    margin-right: 8px;
+}
+
+/* Menu (default for desktop) */
+.admin-navbar .menu {
+    display: flex;
+    gap: 15px;
+    font-size: 14px;
+    margin-left: 20px;
+}
+
+.admin-navbar .menu a {
+    color: #c3c4c7;
+    text-decoration: none;
+    padding: 6px 4px;
+}
+
+.admin-navbar .menu a:hover {
+    color: #00a0d2;
+}
+
+/* Right section (default for desktop) */
+.admin-navbar .right {
+    margin-left: auto;
+    display: flex;
+    gap: 15px;
+    font-size: 14px;
+}
+
+.admin-navbar .right a {
+    color: #c3c4c7;
+    text-decoration: none;
+}
+
+.admin-navbar .right a:hover {
+    color: #00a0d2;
+}
+
+.admin-navbar .username {
+    color: #00a0d2;
+}
+
+/* Hamburger button (hidden by default) */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+.hamburger span {
+    width: 20px;
+    height: 2px;
+    background-color: #fff;
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+    .admin-navbar {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 10px 20px;
+    }
+
+    .hamburger {
+        display: flex;
+        margin-left: auto;
+    }
+
+    /* Mobile menu - sliding animation */
+    .admin-navbar .menu,
+    .admin-navbar .right {
+        flex-direction: column;
+        width: 100%;
+        background-color: #2c3338;
+        margin: 0;
+        padding: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    }
+
+    .admin-navbar .menu.show,
+    .admin-navbar .right.show {
+        max-height: 300px; /* enough height to reveal all items */
+        padding: 10px 0;
+    }
+
+    .admin-navbar .menu a,
+    .admin-navbar .right a,
+    .admin-navbar .username {
+        padding: 6px 20px;
+        text-align: left;
+    }
+
+    /* .admin-navbar .right {
+        border-top: 1px solid #3c434a;
+    } */
+}

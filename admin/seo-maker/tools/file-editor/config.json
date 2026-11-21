@@ -1,0 +1,80 @@
+{
+    "tool": "File Editor",
+    "icon": "fas fa-file",
+    "short_description": "This tells search engine spiders to not crawl certain pages of a website.",
+    "hidden": true,
+    "action_buttons": [
+        {
+            "name": "Edit",
+            "class": "btn-primary",
+            "href": "seo-maker/?tool=file-editor"
+        },
+        {
+            "name": "Cancel",
+            "class": "btn-danger",
+            "href": "seo-maker"
+        }
+    ],
+    "sub_tools": [
+        {
+            "tool": "Robots",
+            "icon": "fas fa-robot",
+            "short_description": "This tells search engine spiders to not crawl certain pages of a website.",
+            "action_buttons": [
+                {
+                    "name": "Edit",
+                    "class": "btn-primary",
+                    "href": "seo-maker/?tool=file-editor&file=robots"
+                }
+            ]
+        },
+        {
+            "tool": "SiteMap",
+            "icon": "fas fa-sitemap",
+            "short_description": "Lists a website's essential pages, making sure Google can find and crawl.",
+            "action_buttons": [
+                {
+                    "name": "Edit",
+                    "class": "btn-primary",
+                    "href": "seo-maker/?tool=file-editor&file=sitemap"
+                }
+            ]
+        },
+        {
+            "tool": "Manifest",
+            "icon": "fas fa-eye",
+            "short_description": "Specifies basic metadata about your extension such as the name and version.",
+            "action_buttons": [
+                {
+                    "name": "Edit",
+                    "class": "btn-primary",
+                    "href": "seo-maker/?tool=file-editor&file=manifest"
+                }
+            ]
+        },
+        {
+            "tool": "Htaccess",
+            "icon": "fa fa-universal-access",
+            "short_description": "It provides a way to make configuration changes on a per-directory basis.",
+            "action_buttons": [
+                {
+                    "name": "Edit",
+                    "class": "btn-primary",
+                    "href": "seo-maker/?tool=file-editor&file=htaccess"
+                }
+            ]
+        },
+        {
+            "tool": "Google Site Verification",
+            "icon": "fab fa-google",
+            "short_description": "This helps in verification of your site though the google search engine.",
+            "action_buttons": [
+                {
+                    "name": "Edit",
+                    "class": "btn-primary",
+                    "href": "seo-maker/?tool=file-editor&file=google-site-verification"
+                }
+            ]
+        }
+    ]
+}

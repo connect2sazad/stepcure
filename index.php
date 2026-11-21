@@ -1,5 +1,4 @@
 <?php
 
-// Welcome to your new PHP project!
-
-echo "Hello World!";
+// load the theme
+include_once 'theme.php';

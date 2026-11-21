@@ -1,0 +1,18 @@
+{
+    "tool": "Tools2",
+    "icon": "fas fa-file",
+    "short_description": "This tells search engine spiders to not crawl certain pages of a website.",
+    "hidden": true,
+    "action_buttons": [
+        {
+            "name": "Edit",
+            "class": "btn-primary",
+            "href": "seo-maker/?tool=file-editor"
+        },
+        {
+            "name": "Cancel",
+            "class": "btn-danger",
+            "href": "seo-maker"
+        }
+    ]
+}

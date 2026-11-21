@@ -1,0 +1,435 @@
+.seo-maker .row {
+    background-color: #b6b6db;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 10px;
+    position: relative;
+}
+
+.seo-maker .row .remove {
+    position: absolute;
+    height: 25px;
+    width: 25px;
+    background-color: rgb(236, 68, 68);
+    color: white;
+    font-weight: bolder;
+    padding: 5px;
+    right: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.select2-container--default .select2-selection--single {
+    border: 0 !important;
+}
+
+.select2 {
+    /* display: block; */
+    width: 100%;
+    padding: 0.4375rem 0.875rem;
+    font-size: 0.9375rem;
+    font-weight: 400;
+    line-height: 1.53;
+    color: #697a8d !important;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #d9dee3;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0.375rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.select2 .select2-selection__rendered {
+    height: 22.938px !important;
+    line-height: initial !important;
+    display: flex !important;
+    align-items: center;
+    color: #697a8d !important;
+    outline: none;
+}
+
+.select2-container .select2-selection--single {
+    height: 22.938px !important;
+    color: #697a8d !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    top: 18% !important;
+}
+
+.select2-search__field {
+    outline: none;
+}
+
+
+/*=================================context menu=========================================*/
+#custom-context-menu {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    background-color: #f0eded;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    min-width: 200px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    /* overflow: hidden; */
+}
+
+#custom-context-menu .item {
+    padding: 5px 15px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    white-space: nowrap;
+}
+
+#custom-context-menu .item:hover {
+    background-color: #b6a9a9;
+}
+
+.has-submenu {
+    position: relative;
+}
+
+.has-submenu::after {
+    content: "▶";
+    position: absolute;
+    right: 8px;
+    top: 10px;
+    font-size: 12px;
+}
+
+.has-submenu .submenu {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    /* default, will be overridden via JS if needed */
+    min-width: 160px;
+    background-color: #f0eded;
+    border: 1px solid #ccc;
+    display: none;
+    z-index: 1001;
+    padding: 4px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.has-submenu:hover .submenu {
+    display: block;
+}
+
+.submenu-item {
+    padding: 5px 12px;
+    cursor: pointer;
+}
+
+.submenu-item:hover {
+    background-color: #b6a9a9;
+}
+
+/*=================================context menu=========================================*/
+
+
+
+
+/*==================================Users in User Groups===============================*/
+.users-in-user-group-wrapper {
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.users-in-user-group-wrapper .users-container {
+    height: auto;
+    width: max-content;
+    max-width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.users-in-user-group-wrapper .users-container .user-group-users-avatar {
+    height: 100px;
+    width: 100px;
+    position: relative;
+    margin: 5px;
+}
+
+.user-group-users-avatar img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.user-group-users-avatar .user-group-users-remove-btn {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    height: 24px;
+    width: 24px;
+    padding: 0;
+    border-radius: 50%;
+    background-color: red;
+    color: white;
+    border: none;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.users-search-container {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.users-search-box {
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.user-search-options {
+    height: auto;
+    max-height: 210px;
+    width: 100%;
+    border: 1px solid #696cff;
+    border-top: 0;
+    border-radius: 0.375rem;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    display: none;
+}
+
+.user-search-options .search-option {
+    height: 60px;
+    width: 100%;
+    margin-bottom: 5px;
+    padding: 35px 10px;
+    /* background-color: #b6a9a9; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+}
+
+.user-search-options .search-option:hover {
+    background-color: #c2c4c5;
+}
+
+.user-search-options .search-option:first-child {
+    margin-bottom: 0;
+}
+
+.user-search-options .search-option .avatar_img {
+    height: 60px;
+    width: 60px;
+    margin-right: 15px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.user-search-options .search-option .avatar_img img {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+}
+
+#user-search-options-input:empty:before {
+    content: attr(data-placeholder);
+    color: #aaa;
+    pointer-events: none;
+}
+
+#user-search-options-input:focus:before {
+    content: attr(data-placeholder);
+    /* Keep it on focus too */
+}
+
+#user-search-options-input:not(:empty):before {
+    content: none;
+}
+
+.avatar {
+    background-color: white;
+    border-radius: 50%;
+}
+
+/*==================================Users in User Groups===============================*/
+
+/* ==================================Avatar circle==================================== */
+.avatar-border {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    padding: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar-border img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+
+.dropdown .avatar-border {
+    width: 40px;
+    height: 40px;
+}
+
+/* ==================================Avatar circle==================================== */
+
+/* design for dialog box */
+.modal-body .tab-content {
+    box-shadow: none !important;
+    border: none !important;
+}
+
+.sale-items .row {
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+}
+
+
+/* chat */
+.chat-container {
+    height: auto;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.chat-bubble {
+    max-width: 60%;
+    padding: 10px 15px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+}
+
+.chat-left {
+    background-color: #e2e3e5;
+    align-self: flex-start;
+    border-top-left-radius: 0;
+}
+
+.chat-right {
+    background-color: #696cff;
+    color: white;
+    align-self: flex-end;
+    border-top-right-radius: 0;
+}
+
+.chat-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-input {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 15px;
+    background-color: white;
+    border-top: 1px solid #dee2e6;
+}
+
+.chat-message {
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-time {
+    font-size: 0.75rem;
+    color: #6c757d;
+    margin-top: 2px;
+}
+
+.chat-message.align-items-start .chat-time {
+    text-align: left;
+}
+
+.chat-message.align-items-end .chat-time {
+    text-align: right;
+}
+
+.chat-attachments {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+/* Image group layout */
+.chat-image-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.chat-image-group a {
+    flex: 1 1 calc(25% - 6px);
+    max-width: calc(25% - 6px);
+    display: block;
+}
+
+.chat-image-attachment {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* File group layout (stacked vertically) */
+.chat-file-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.chat-file-attachment {
+    background-color: #f8f9fa;
+    padding: 8px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #333;
+    font-size: 0.85rem;
+    border: 1px solid #dee2e6;
+    word-break: break-word;
+}
+
+.chat-file-attachment:hover {
+    background-color: #e2e6ea;
+}
+
+.chat-username {
+    font-weight: bold;
+    font-size: 0.85rem;
+    color: #495057;
+}
+
+.chat-right .chat-time,
+.chat-right .chat-username,
+.chat-right label {
+    color: #f8f9fa;
+}

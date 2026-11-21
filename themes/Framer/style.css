@@ -1,0 +1,229 @@
+@charset "UTF-8";
+/* === Variables as CSS values === */
+:root {
+  --header-bg: #fff;
+  --footer-bg: #DBEBC1;
+  --section-bg: #F5F2E3;
+  --scrollbar-bg: rgba(0, 0, 0, 0.1);
+  --scroll-thumb-bg: #566B30;
+  --label-bg: #566B30;
+  --label-color: #fff;
+  --detail-bg: #95B85C;
+  --detail-text: #fff;
+}
+
+/* === Base === */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  font-family: sans-serif;
+}
+
+header, footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 18px;
+}
+
+header {
+  background: var(--header-bg);
+}
+
+footer {
+  height: 200px;
+  background: var(--footer-bg);
+}
+
+/* === Layout === */
+.products-details {
+  height: calc(100vh - 70px);
+  overflow: hidden;
+  position: relative;
+}
+
+.scroll-content {
+  height: 100%;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  perspective: 1000px;
+}
+
+.scroll-content::-webkit-scrollbar {
+  display: none;
+}
+
+.section {
+  height: 100vh;
+  scroll-snap-align: start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--section-bg);
+}
+
+.full-dimensions {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.col-6 {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 0;
+}
+
+/* === Cube Animation === */
+.cube-col {
+  perspective: 1000px;
+  overflow: hidden;
+}
+
+.cube-col .cube-inner {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  opacity: 0;
+  transform-style: preserve-3d;
+  transition: transform 1s ease, opacity 0.8s ease;
+}
+
+.cube-col.cube-up .cube-inner {
+  transform: rotateX(90deg);
+  transform-origin: bottom;
+  background-color: var(--detail-bg);
+  color: var(--detail-text);
+}
+
+.cube-col.cube-down .cube-inner {
+  transform: rotateX(-90deg);
+  transform-origin: top;
+}
+
+.cube-col.animate .cube-inner {
+  transform: rotateX(0deg);
+  opacity: 1;
+}
+
+/* === Image === */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* === Scroll Indicator === */
+.scroll-indicator {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60px;
+  height: 100%;
+  border-radius: 4px;
+}
+
+.scroll-indicator-effect {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  pointer-events: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.scroll-indicator-effect .thin-line {
+  position: absolute;
+  top: 0;
+  left: 1%;
+  height: 100%;
+  width: 5%;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3));
+  transform: translateX(-50%);
+}
+
+.scroll-indicator-effect .thick-line {
+  position: absolute;
+  top: 0;
+  left: 60%;
+  height: 100%;
+  width: 85%;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3));
+  transform: translateX(-50%);
+}
+
+.scroll-thumb {
+  width: 100%;
+  height: 100px;
+  position: absolute;
+  left: 0;
+  transition: top 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.scroll-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  letter-spacing: 2px;
+  transform: translate(-50%, -50%) rotate(90deg);
+  color: var(--label-color);
+  background: var(--label-bg);
+  padding: 0px 8px;
+  font-size: 14px;
+  text-transform: uppercase;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* === Mobile/Tablet Styles === */
+@media (max-width: 768px) {
+  .row.full-dimensions {
+    flex-direction: column;
+  }
+  .col-6 {
+    width: 100% !important;
+    height: auto;
+    padding: 20px;
+  }
+  .cube-col .cube-inner {
+    padding: 20px !important;
+  }
+  .cube-col.cube-up .cube-inner,
+  .cube-col.cube-down .cube-inner {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  .cube-col.animate .cube-inner {
+    transform: translateY(0);
+    opacity: 1;
+    transition: transform 0.6s ease, opacity 0.6s ease;
+  }
+  /* ✅ HIDE SCROLL INDICATOR on mobile/tablet */
+  .scroll-indicator {
+    display: none !important;
+  }
+}/*# sourceMappingURL=style.css.map */

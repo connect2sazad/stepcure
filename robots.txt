@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /system_generated/
+Disallow: /.git/
+
+Allow: /
+
+Sitemap: https://www.stepcure.co/sitemap.xml

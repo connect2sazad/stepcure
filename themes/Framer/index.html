@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chat Screen with Time</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    .chat-container {
+      height: 100vh;
+      background-color: #f8f9fa;
+      padding: 20px;
+      overflow-y: auto;
+      padding-bottom: 80px; /* to avoid overlap with input */
+    }
+
+    .chat-bubble {
+      max-width: 60%;
+      padding: 10px 15px;
+      border-radius: 20px;
+      margin-bottom: 2px;
+      word-break: break-word;
+    }
+
+    .chat-left {
+      background-color: #e2e3e5;
+      align-self: flex-start;
+      border-top-left-radius: 0;
+    }
+
+    .chat-right {
+      background-color: #696cff;
+      color: white;
+      align-self: flex-end;
+      border-top-right-radius: 0;
+    }
+
+    .chat-wrapper {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chat-input {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 15px;
+      background-color: white;
+      border-top: 1px solid #dee2e6;
+    }
+
+    .chat-message {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 10px;
+    }
+
+    .chat-time {
+      font-size: 0.75rem;
+      color: #6c757d;
+      margin-top: 2px;
+    }
+
+    .chat-message.align-items-start .chat-time {
+      text-align: left;
+    }
+
+    .chat-message.align-items-end .chat-time {
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container-fluid chat-container chat-wrapper">
+
+  <!-- Sender Message (Left) -->
+  <div class="chat-message align-items-start">
+    <div class="chat-bubble chat-left">
+      Hello! How can I help you today?
+    </div>
+    <div class="chat-time">10:01 AM</div>
+  </div>
+
+  <!-- Receiver Message (Right) -->
+  <div class="chat-message align-items-end">
+    <div class="chat-bubble chat-right">
+      Hi! I have a question about my account.
+    </div>
+    <div class="chat-time">10:02 AM</div>
+  </div>
+
+  <!-- Sender Message (Left) -->
+  <div class="chat-message align-items-start">
+    <div class="chat-bubble chat-left">
+      Sure! Please go ahead.
+    </div>
+    <div class="chat-time">10:03 AM</div>
+  </div>
+
+  <!-- Receiver Message (Right) -->
+  <div class="chat-message align-items-end">
+    <div class="chat-bubble chat-right">
+      Can I change my email address?
+    </div>
+    <div class="chat-time">10:04 AM</div>
+  </div>
+
+</div>
+
+<!-- Chat Input -->
+<div class="chat-input d-flex align-items-center">
+  <input type="text" class="form-control me-2" placeholder="Type a message..." />
+  <button class="btn btn-primary">Send</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+.dashboard-heading h4 { color: #263b32; }
+.dashboard-kpis .kpi-card { color: inherit; transition: transform .2s ease, box-shadow .2s ease; }
+.dashboard-kpis .kpi-card:hover { transform: translateY(-3px); box-shadow: 0 .6rem 1.4rem rgba(67,89,113,.12); }
+.kpi-card .card-body { display:flex; align-items:center; gap:14px; padding:1.25rem; }
+.kpi-card small { display:block; margin-bottom:3px; color:#8592a3; }
+.kpi-icon { display:grid; flex:0 0 46px; width:46px; height:46px; place-items:center; border-radius:12px; font-size:1.45rem; }
+.widget-header { display:flex; align-items:center; min-height:76px; gap:14px; }
+.widget-header > div:first-child { margin-right:auto; }
+.widget-header > a { white-space:nowrap; font-size:.8rem; }
+.drag-handle { display:none; color:#a1acb8; font-size:1.4rem; cursor:grab; }
+.dashboard-editing .drag-handle { display:inline-flex; }
+.dashboard-editing .dashboard-widget > .card { outline:1px dashed rgba(105,108,255,.5); }
+.dashboard-widget { transition:opacity .18s ease, transform .18s ease; }
+.dashboard-widget.dragging { opacity:.38; transform:scale(.98); }
+.dashboard-widget.drag-over > .card { box-shadow:0 0 0 3px rgba(105,108,255,.22); }
+.stock-alert { display:flex; align-items:center; gap:12px; min-height:76px; padding:12px; border:1px solid #eceef1; border-radius:10px; }
+.stock-alert > span { display:grid; flex:0 0 38px; width:38px; height:38px; place-items:center; border-radius:9px; }
+.stock-alert strong,.stock-alert small { display:block; }.stock-alert strong { margin-bottom:3px; font-size:.85rem; }.stock-alert small { color:#8592a3; font-size:.75rem; }
+.table td,.table th { vertical-align:middle; white-space:nowrap; }
+#revenueChart,#activityChart { min-height:320px; } #salesStatusChart,#stockChart,#siteChart { min-height:300px; }
+@media(max-width:575px){.dashboard-heading .btn{font-size:.72rem;padding:.55rem .7rem}.kpi-card .card-body{padding:1rem}.kpi-icon{flex-basis:40px;width:40px;height:40px}.kpi-card h4{font-size:1.05rem}}
