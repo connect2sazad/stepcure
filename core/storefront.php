@@ -11,7 +11,7 @@ function sc_user() { if (empty($_SESSION[CLIENT_USER_AUTH])) return null; return
 function sc_product($id) { return sc_query('SELECT p.*, c.slug AS category_slug FROM products p JOIN product_categories c ON c.id=p.category_id WHERE p.id=? AND p.is_active=1 AND p.is_deleted=0 AND c.is_active=1 AND c.is_deleted=0', 'i', [$id])->get_result()->fetch_assoc(); }
 function sc_price($p) { $price = (float)$p['price']; $discount=(float)$p['discounted_price']; return (int)round(($discount>0 && $discount<$price ? $discount : $price)*100); }
 function sc_money($cents) { return '₹' . number_format($cents / 100, 2); }
-function sc_image($p) { $images=json_decode($p['product_images'] ?? '[]', true); $image=is_array($images)?($images[0]??''):''; return $image ? sc_url('uploads/' . rawurlencode(basename($image))) : theme_url('assets/img/products/custom-footwear.png'); }
+function sc_image($p) { $images=json_decode($p['product_images'] ?? '[]', true); $images=is_array($images)?array_values(array_filter($images)):[];$image=$images[0]??($p['category_image']??''); return $image ? sc_url('uploads/' . rawurlencode(basename($image))) : theme_url('assets/img/products/custom-footwear.png'); }
 function sc_cart() { $items=[]; foreach (($_SESSION['sc_cart']??[]) as $id=>$qty) { $p=sc_product((int)$id); if($p && sc_price($p)>0) { $p['quantity']=(int)$qty; $p['unit_cents']=sc_price($p); $p['line_cents']=$p['unit_cents']*$p['quantity']; $items[]=$p; } else { unset($_SESSION['sc_cart'][$id]); } } return $items; }
 function sc_totals($items, $state='Odisha') { $subtotal=0;$tax=0; foreach($items as $p){$subtotal+=$p['line_cents'];$rate=strcasecmp(trim($state),'Odisha')===0 ? (float)$p['tax1_percent']+(float)$p['tax2_percent'] : (float)$p['igst_percent'];$tax+=(int)round($p['line_cents']*$rate/100);}return ['subtotal'=>$subtotal,'tax'=>$tax,'total'=>$subtotal+$tax]; }
 function sc_flash() { if(!empty($_SESSION['sc_flash'])) { echo '<div class="alert alert-info" role="status">'.sc_e($_SESSION['sc_flash']).'</div>';unset($_SESSION['sc_flash']); } }
@@ -52,9 +52,9 @@ function sc_dispatch($page) {
  if($action==='cart_add') {
   $id=filter_var($_POST['product_id']??'',FILTER_VALIDATE_INT);$qty=filter_var($_POST['quantity']??1,FILTER_VALIDATE_INT);$p=$id?sc_product($id):null;
   if(!$p || sc_price($p)<=0 || !$qty || $qty<1 || $qty>20)throw new RuntimeException('Choose an available product and a quantity from 1 to 20.');
-  $_SESSION['sc_cart'][$id]=min(20,($_SESSION['sc_cart'][$id]??0)+$qty);$_SESSION['sc_flash']='Added to your cart.';sc_redirect('cart');
+  $wanted=($_SESSION['sc_cart'][$id]??0)+$qty;if($wanted>min(20,sc_available($id)))throw new RuntimeException('The requested quantity is not available in stock.');$_SESSION['sc_cart'][$id]=$wanted;$_SESSION['sc_flash']='Added to your cart.';sc_redirect('cart');
  }
- if($action==='cart_update' && $page==='cart') { foreach(($_POST['quantity']??[]) as $id=>$qty){if(!isset($_SESSION['sc_cart'][$id]))continue;$n=filter_var($qty,FILTER_VALIDATE_INT);if($n===false || $n<0 || $n>20)throw new RuntimeException('Quantities must be between 0 and 20.');if($n===0)unset($_SESSION['sc_cart'][$id]);else $_SESSION['sc_cart'][$id]=$n;}sc_redirect('cart');}
+ if($action==='cart_update' && $page==='cart') { foreach(($_POST['quantity']??[]) as $id=>$qty){if(!isset($_SESSION['sc_cart'][$id]))continue;$n=filter_var($qty,FILTER_VALIDATE_INT);if($n===false || $n<0 || $n>20)throw new RuntimeException('Quantities must be between 0 and 20.');if($n>sc_available((int)$id))throw new RuntimeException('The requested quantity exceeds available stock.');if($n===0)unset($_SESSION['sc_cart'][$id]);else $_SESSION['sc_cart'][$id]=$n;}sc_redirect('cart');}
  if($action==='place_order' && $page==='checkout') {
   $user=sc_user();if(!$user){$_SESSION['sc_checkout_return']=true;sc_redirect('signin');}
   $items=sc_cart();if(!$items || count($items)!==count($_SESSION['sc_cart']??[]))throw new RuntimeException('Your cart contains unavailable products. Please review your cart before checkout.');
@@ -64,7 +64,7 @@ function sc_dispatch($page) {
   $totals=sc_totals($items,$fields['state']);if(isset($_POST['quoted_total']) && (int)$_POST['quoted_total']!==$totals['total'])throw new RuntimeException('Your total has changed for this delivery state. Review the updated amount and place the order again.');$db=sc_db();$db->begin_transaction();
   try { $existing=sc_query('SELECT id FROM web_orders WHERE checkout_token=? AND online_user_id=?','si',[$token,$user['id']])->get_result()->fetch_assoc();
    if(!$existing){$number='SC-'.date('Ymd').'-'.strtoupper(bin2hex(random_bytes(4)));$delivery=json_encode($fields,JSON_THROW_ON_ERROR);$subtotal=$totals['subtotal']/100;$tax=$totals['tax']/100;$total=$totals['total']/100;
-    sc_query("INSERT INTO web_orders (order_number,online_user_id,checkout_token,delivery,subtotal,tax,total,payment_method,payment_status,status) VALUES (?,?,?,?,?,?,?,'cod','unpaid','placed')",'sissddd',[$number,$user['id'],$token,$delivery,$subtotal,$tax,$total]);$orderId=$db->insert_id;
+    sc_query("INSERT INTO web_orders (order_number,online_user_id,checkout_token,delivery,subtotal,tax,total,payment_method,payment_status,status) VALUES (?,?,?,?,?,?,?,'cod','unpaid','placed')",'sissddd',[$number,$user['id'],$token,$delivery,$subtotal,$tax,$total]);$orderId=$db->insert_id;sc_stock_deduct($orderId,$items);
     foreach($items as $p){$unit=$p['unit_cents']/100;$line=$p['line_cents']/100;sc_query('INSERT INTO web_order_items (order_id,product_id,product_name,quantity,unit_price,line_total) VALUES (?,?,?,?,?,?)','iisidd',[$orderId,$p['id'],$p['product_name'],$p['quantity'],$unit,$line]);}
    }else{$orderId=$existing['id'];}
    $db->commit();unset($_SESSION['sc_cart'],$_SESSION['sc_order_token'],$_SESSION['sc_checkout_return']);$_SESSION['sc_flash']='Order placed. Payment is due on delivery.';sc_redirect('orders');

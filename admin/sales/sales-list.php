@@ -1,8 +1,8 @@
 <p><a class="btn btn-primary" href="../online-orders/">Online store orders</a></p>
 <?php
 
-$sales_list = fetchAsArray(getSalesList());
-$trashed_sales = fetchAsArray(getTrashedSalesList());
+$sales_list = admin_list_fetch(fn()=>getSalesList(), 'sales', 'sales_list');
+$trashed_sales = admin_list_fetch(fn()=>getTrashedSalesList(), 'sales', 'trashed_sales');
 
 // Column definitions
 $columns = [
@@ -118,8 +118,8 @@ $columns = [
 ];
 
 // Counts
-$activeCount = count($sales_list);
-$trashedCount = count($trashed_sales);
+$activeCount = admin_list_total($sales_list, 'sales_list');
+$trashedCount = admin_list_total($trashed_sales, 'trashed_sales');
 ?>
 
 <div class="card-body" id="section-data">
@@ -202,7 +202,7 @@ $trashedCount = count($trashed_sales);
                 // ✅ Reload table dynamically
                 $('#section-data').load(location.href + ' #section-data > *', function() {
                     // ✅ Re-init DataTables after reload
-                    $('table').DataTable({
+                    $('table:not([data-server-page="1"])').DataTable({
                         destroy: true,
                         select: true
                     });

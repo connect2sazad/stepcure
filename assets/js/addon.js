@@ -4,26 +4,7 @@
 
 'use strict';
 
-(function () {
 
-  // Move admin-navbar to the top of header
-  document.addEventListener("DOMContentLoaded", function () {
-    const navAdmin = document.getElementById("admin-navbar");
-    const header = document.querySelector(".header");
-    if (navAdmin && header) {
-      header.insertBefore(navAdmin, header.firstChild);
-    }
-  });
-
-  // Move nav_admin to the beginning of the header
-  var nav_admin = document.getElementById("admin-navbar");
-  var header = document.querySelector(".header") || document.querySelector("header");
-
-  if (nav_admin && header) {
-    header.insertBefore(nav_admin, header.firstChild);
-  }
-
-})();
 
 
 function slug_creator(title) {
@@ -42,11 +23,12 @@ $(document).ready(function () {
     var info = $table.attr('data-info');
 
     // Skip initializing DataTable for tables with data-info="ignore-dt"
-    if (info === 'ignore-dt') return;
+    if (info === 'ignore-dt' || !$.fn.DataTable || $.fn.DataTable.isDataTable(this)) return;
+    if ($table.attr('data-server-page') === '1') return;
 
     // Common options
     var options = {
-      select: true,
+      select: true, deferRender: true, pageLength: 25, searchDelay: 300,
     };
 
     // If the data-info is "no-pagination", disable pagination
@@ -105,7 +87,7 @@ $(document).ready(function () {
   }
 
   // search in select
-  $('select').select2();
+  if ($.fn.select2) $('select').not('[name="list_size"],.dataTables_length select').each(function(){if(!$(this).hasClass('select2-hidden-accessible')) $(this).select2({width:'100%'});});
   $('.select2-container').removeAttr('style');
 
 });
@@ -507,3 +489,9 @@ const indianRupee = (amount = null) => {
   }
   return '₹' + indianNumberFormat(Math.round(amount * 100) / 100);
 }
+$(function(){
+ function repairPagedTables(){document.querySelectorAll('table[data-server-page="1"]').forEach(table=>{if($.fn.DataTable&&$.fn.DataTable.isDataTable(table))$(table).DataTable().destroy();});}
+ repairPagedTables();$(document).on('init.dt',function(event,settings){if(settings?.nTable?.dataset.serverPage==='1')setTimeout(repairPagedTables,0);});
+ document.querySelectorAll('.sc-list-pager a').forEach(link=>{const pane=link.closest('.tab-pane');if(pane)link.hash=pane.id;});
+ const target=[...document.querySelectorAll('[data-bs-toggle="tab"]')].find(button=>button.getAttribute('data-bs-target')===location.hash);if(target&&window.bootstrap)bootstrap.Tab.getOrCreateInstance(target).show();
+});

@@ -4,7 +4,7 @@ $category_options = getProductCategoryOptions();
 
 ?>
 <div class="card-body">
-    <form id="add_new_product" method="POST" onsubmit="return false" enctype="multipart/form-data">
+    <form id="add_new_product" method="POST" onsubmit="return false" enctype="multipart/form-data"><?= sc_token() ?>
         <div class="row">
 
             <div class="col-sm-6 mb-3">
@@ -29,7 +29,7 @@ $category_options = getProductCategoryOptions();
                     <option selected disabled>Select Product Type</option>
                     <option value="0">Women's Footwear</option>
                     <option value="1">Men's Footwear</option>
-                    <option value="2">Foot Orthotics</option>
+                    <option value="2">Foot Orthotics</option><option value="3">Custom Footwear</option>
                 </select>
             </div>
 
@@ -65,11 +65,11 @@ $category_options = getProductCategoryOptions();
                 <div class="row align-items-center product-detail" id="product_details0">
                     <div class="col-12 col-md-5 mb-3">
                         <label class="form-label" for="details_name0">Detail Name</label>
-                        <input type="text" class="form-control" id="details_name0" placeholder="Detail Name" name="details_name[]" required>
+                        <input type="text" class="form-control" id="details_name0" placeholder="Detail Name" name="details_name[]">
                     </div>
                     <div class="col-12 col-md-6 mb-3">
                         <label class="form-label" for="details_value0">Detail Value</label>
-                        <input type="text" class="form-control" id="details_value0" placeholder="Detail Value" name="details_value[]" required>
+                        <input type="text" class="form-control" id="details_value0" placeholder="Detail Value" name="details_value[]">
                     </div>
                     <div class="col-12 col-md-1 mt-2 d-flex align-items-center justify-content-center">
                         <button type="button" class="btn btn-outline-danger remove-detail ms-md-2">
@@ -92,11 +92,11 @@ $category_options = getProductCategoryOptions();
                 <div class="row align-items-center product-technology" id="product_technology0">
                     <div class="col-12 col-md-5 mb-3">
                         <label class="form-label" for="technology_name0">Technology Name</label>
-                        <input type="text" class="form-control" id="technology_name0" placeholder="Technology Name" name="technology_name[]" required>
+                        <input type="text" class="form-control" id="technology_name0" placeholder="Technology Name" name="technology_name[]">
                     </div>
                     <div class="col-12 col-md-6 mb-3">
                         <label class="form-label" for="technology_description0">Technology Description</label>
-                        <input type="text" class="form-control" id="technology_description0" placeholder="Technology Description" name="technology_description[]" required>
+                        <input type="text" class="form-control" id="technology_description0" placeholder="Technology Description" name="technology_description[]">
                     </div>
                     <div class="col-12 col-md-1 mt-2 d-flex align-items-center justify-content-center">
                         <button type="button" class="btn btn-outline-danger remove-technology ms-md-2">
@@ -118,11 +118,11 @@ $category_options = getProductCategoryOptions();
                 <div class="row align-items-center product-feature" id="product_features0">
                     <div class="col-12 col-md-5 mb-3">
                         <label class="form-label" for="features_name0">Feature Name</label>
-                        <input type="text" class="form-control" id="features_name0" placeholder="Feature Name" name="features_name[]" required>
+                        <input type="text" class="form-control" id="features_name0" placeholder="Feature Name" name="features_name[]">
                     </div>
                     <div class="col-12 col-md-6 mb-3">
                         <label class="form-label" for="features_value0">Feature Value</label>
-                        <input type="text" class="form-control" id="features_value0" placeholder="Feature Value" name="features_value[]" required>
+                        <input type="text" class="form-control" id="features_value0" placeholder="Feature Value" name="features_value[]">
                     </div>
                     <div class="col-12 col-md-1 mt-2 d-flex align-items-center justify-content-center">
                         <button type="button" class="btn btn-outline-danger remove-feature ms-md-2">
@@ -144,11 +144,11 @@ $category_options = getProductCategoryOptions();
                 <div class="row align-items-center product-pathology" id="product_pathology0">
                     <div class="col-12 col-md-5 mb-3">
                         <label class="form-label" for="pathology_name0">Pathology Name</label>
-                        <input type="text" class="form-control" id="pathology_name0" placeholder="Pathology Name" name="pathology_name[]" required>
+                        <input type="text" class="form-control" id="pathology_name0" placeholder="Pathology Name" name="pathology_name[]">
                     </div>
                     <div class="col-12 col-md-6 mb-3">
                         <label class="form-label" for="pathology_description0">Pathology Description</label>
-                        <input type="text" class="form-control" id="pathology_description0" placeholder="Pathology Description" name="pathology_description[]" required>
+                        <input type="text" class="form-control" id="pathology_description0" placeholder="Pathology Description" name="pathology_description[]">
                     </div>
                     <div class="col-12 col-md-1 mt-2 d-flex align-items-center justify-content-center">
                         <button type="button" class="btn btn-outline-danger remove-pathology ms-md-2">
@@ -481,9 +481,9 @@ $category_options = getProductCategoryOptions();
                 let fileInput = $(formElem).find('input[type="file"]')[0];
                 if (fileInput && fileInput.files.length > 0) {
                     let file = fileInput.files[0];
-                    if (file.size > 204800) { // 1MB = 1024*1024 bytes | 204800 bytes = 200KB
+                    if (file.size > 1048576) { // 1MB = 1024*1024 bytes | 1048576 bytes = 200KB
                         Toastify({
-                            text: "File size exceeds 200kb limit!",
+                            text: "File size exceeds 1 MB limit!",
                             duration: 3000,
                             close: true,
                             gravity: "top",

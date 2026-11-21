@@ -45,7 +45,7 @@ $admin_logs = getAdminLogs();
 
     <div class="row m-0 my-4 align-items-center">
         <div class="col-6 p-0">
-            <img src="https://lyncdigit.com/lyncdigit.png" alt="Logo" class="img-fluid px-4">
+            <span style="font-weight:700;font-size:20px;color:inherit">connect2sazad</span>
         </div>
         <div class="col-5 text-end">
             <h2 class="px-4">Admin Logs</h2>

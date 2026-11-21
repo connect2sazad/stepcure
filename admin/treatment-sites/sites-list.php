@@ -1,7 +1,7 @@
 <?php
 
-$sites_list = fetchAsArray(getSitesList());
-$trashed_sites = fetchAsArray(getTrashedSitesList());
+$sites_list = admin_list_fetch(fn()=>getSitesList(), 'sites', 'sites_list');
+$trashed_sites = admin_list_fetch(fn()=>getTrashedSitesList(), 'sites', 'trashed_sites');
 
 // Column definitions
 $columns = [
@@ -20,8 +20,8 @@ $columns = [
 ];
 
 // Counts
-$activeCount = count($sites_list);
-$trashedCount = count($trashed_sites);
+$activeCount = admin_list_total($sites_list, 'sites_list');
+$trashedCount = admin_list_total($trashed_sites, 'trashed_sites');
 ?>
 
 <div class="card-body" id="section-data">
@@ -104,7 +104,7 @@ $trashedCount = count($trashed_sites);
                 // ✅ Reload table dynamically
                 $('#section-data').load(location.href + ' #section-data > *', function() {
                     // ✅ Re-init DataTables after reload
-                    $('table').DataTable({
+                    $('table:not([data-server-page="1"])').DataTable({
                         destroy: true,
                         select: true
                     });

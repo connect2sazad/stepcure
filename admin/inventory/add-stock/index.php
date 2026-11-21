@@ -69,9 +69,9 @@ $inventory = mysqli_fetch_assoc($inventory);
 // get user group to check if the user is admin or super admin
 $current_user_group = userVariable('user_group');
 
-$user_site = '';
+$user_site = $inventory['site_id'];
 // check if the user is admin 2 or super admin 1
-if ($current_user_group != 1 || $current_user_group != 2) {
+if ($current_user_group != 1 && $current_user_group != 2) {
     // get treatment site for the current user
     $user_site = userVariable('treatment_site');
 }

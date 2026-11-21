@@ -2,13 +2,13 @@
 
 $site_id = userVariable('treatment_site');
 
-$system_generated_invoices = fetchAsArray(getSystemGeneratedInvoices());
+$system_generated_invoices = admin_list_fetch(fn()=>getSystemGeneratedInvoices(), 'sales', 'system_generated_invoices');
 
-$invoices = fetchAsArray((getInvoices()));
+$invoices = admin_list_fetch(fn()=>(getInvoices()), 'customer_invoices', 'invoices');
 
 // Fetch Active & Trashed
-$active_invoices = fetchAsArray(getInvoicesList());
-$trashed_invoices = fetchAsArray(getTrashedInvoicesList());
+$active_invoices = admin_list_fetch(fn()=>getInvoicesList(), 'customer_invoices', 'active_invoices');
+$trashed_invoices = admin_list_fetch(fn()=>getTrashedInvoicesList(), 'customer_invoices', 'trashed_invoices');
 
 // columns for system generated invoices table
 $system_generated_invoices_columns = [
@@ -152,9 +152,9 @@ $columns = [
 ];
 
 // Counts
-$invoicesCount  = count($invoices);
-$trashedCount = count($trashed_invoices);
-$systemGeneratedinvoicesCount = count($system_generated_invoices);
+$invoicesCount  = admin_list_total($invoices, 'invoices');
+$trashedCount = admin_list_total($trashed_invoices, 'trashed_invoices');
+$systemGeneratedinvoicesCount = admin_list_total($system_generated_invoices, 'system_generated_invoices');
 ?>
 <div class="card">
     <div class="card-body" id="section-data">
@@ -291,7 +291,7 @@ $systemGeneratedinvoicesCount = count($system_generated_invoices);
                     // ✅ Reload table section only
                     // ✅ Reload table dynamically + re-init DataTables
                     $('#section-data').load(location.href + ' #section-data > *', function() {
-                        $('table').DataTable({
+                        $('table:not([data-server-page="1"])').DataTable({
                             destroy: true,
                             select: true
                         });

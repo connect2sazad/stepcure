@@ -32,7 +32,6 @@ function load_admin_auth()
 
     if (isset($_SESSION[USER_AUTH])) {
         load_component('admin-nav');
-        echo '<script id="str_aslOu" src="' . systemVariable('SITE_HOME') . 'assets/js/addon.js"></script>';
     }
 }
 
@@ -64,32 +63,11 @@ function loadAdminStyleSheets()
             <link rel="stylesheet" href="' . systemVariable('SITE_DIR') . 'assets/vendor/libs/DataTables/datatables.min.css" />
             <link rel="stylesheet" href="' . systemVariable('SITE_DIR') . 'assets/vendor/libs/bs-stepper/bs-stepper.css" />
             <link rel="stylesheet" href="' . systemVariable('SITE_DIR') . 'assets/css/addon.css" />
-
-            <style>
-            body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url(' . systemVariable('SITE_DIR') . 'uploads/' . systemVariable('background_image') . ');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    filter: blur(10px);
-    z-index: -1;
-}
-body {
-    position: relative;
-    z-index: 0;
-}
-            </style>
         ';
 
 
 
-    return $stylesheets;
+    return $stylesheets . admin_appearance_assets();
 }
 
 function loadAdminScripts()
@@ -121,7 +99,7 @@ function loadAdminFooterScripts()
     $footer_scripts = '  
     
       <!-- Vendors -->
-      <script src="' . systemVariable('SITE_DIR') . 'assets/vendor/libs/jquery/jquery.js"></script>
+
       <script src="' . systemVariable('SITE_DIR') . 'assets/vendor/libs/popper/popper.js"></script>
       <script src="' . systemVariable('SITE_DIR') . 'assets/vendor/js/bootstrap.js"></script>
       <script src="' . systemVariable('SITE_DIR') . 'assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
@@ -137,7 +115,7 @@ function loadAdminFooterScripts()
       <script src="' . systemVariable('SITE_DIR') . 'assets/js/seo-maker.js"></script>
       <script src="' . systemVariable('SITE_DIR') . 'assets/js/dashboards-analytics.js"></script>
       <script src="' . systemVariable('SITE_DIR') . 'assets/js/form-wizard-icons.js"></script>
-      <script src="' . systemVariable('SITE_DIR') . 'assets/js/addon.js"></script>
+      <script src="' . systemVariable('SITE_DIR') . 'assets/js/addon.js?v=' . filemtime(__DIR__ . '/../assets/js/addon.js') . '"></script>
     ';
 
     return $footer_scripts;
@@ -171,9 +149,9 @@ function loadAdminTitleAndFavicon(...$basic)
 {
 
     if (isset($basic[0])) {
-        $title = $basic[0] . ' — ' . systemVariable('SITE_NAME') . ' • Lyncdigit Admin Console';
+        $title = $basic[0] . ' — ' . systemVariable('SITE_NAME') . ' • connect2sazad Admin Console';
     } else {
-        $title = systemVariable('SITE_NAME') . ' • Lyncdigit Admin Console';
+        $title = systemVariable('SITE_NAME') . ' • connect2sazad Admin Console';
     }
     $favicon = systemVariable('SITE_DIR') . "assets/img/favicon/favicon.ico";
 
@@ -196,7 +174,7 @@ function loadAdminCopyright()
     $copyright = '
         <div class="credit">
             copyright &copy; ' . $copyright_year . ' ' . systemVariable('SITE_NAME') . ' | all rights reserved. | 
-            Powered by <a href="https://www.lyncdigit.com" target="_blank">Lyncdigit</a>
+            Powered by <a href="https://connect2sazad.github.io/" target="_blank">connect2sazad</a>
         </div>
     ';
 
@@ -220,12 +198,8 @@ function loadAdminFooter()
 
 function userVariable($variable_name)
 {
-    $query = WHERE('users', 'userid', $_SESSION[USER_AUTH]);
-    $run_query = runQuery($query);
-    $fetch = mysqli_fetch_assoc($run_query);
-    return $fetch[$variable_name];
+ static $cache=[];$key=$_SESSION[USER_AUTH]??'';if(!array_key_exists($key,$cache))$cache[$key]=sc_query('SELECT * FROM users WHERE userid=?','s',[$key])->get_result()->fetch_assoc()?:[];return $cache[$key][$variable_name]??null;
 }
-
 function getPagesList()
 {
     $pages = "SELECT * FROM `pages` WHERE `pages`.`is_trashed` = 0 AND `pages`.`is_deleted` = 0;";
@@ -463,9 +437,7 @@ function getUserGroups()
 {
 
     // check if the current user belongs to user group 1 (Super Admin)
-    $current_user = $_SESSION[USER_AUTH];
-    $current_user = getUserByUserId($current_user);
-    $current_user = mysqli_fetch_assoc($current_user);
+    $current_user = ['id'=>userVariable('id'),'user_group'=>userVariable('user_group')];
 
     $admin_exc = " AND id != 2";
 
@@ -564,9 +536,7 @@ function getUsersList()
 function getUsersListDetailed()
 {
     // check if the current user belongs to user group 2 (Admin) or 1 (Super Admin)
-    $current_user = $_SESSION[USER_AUTH];
-    $current_user = getUserByUserId($current_user);
-    $current_user = mysqli_fetch_assoc($current_user);
+    $current_user = ['id'=>userVariable('id'),'user_group'=>userVariable('user_group')];
 
     $admin_exc = " AND users.user_group != 2";
 
@@ -607,9 +577,7 @@ function getTrashedUsersListDetailed()
 {
 
     // check if the current user belongs to user group 2 (Admin) or 1 (Super Admin)
-    $current_user = $_SESSION[USER_AUTH];
-    $current_user = getUserByUserId($current_user);
-    $current_user = mysqli_fetch_assoc($current_user);
+    $current_user = ['id'=>userVariable('id'),'user_group'=>userVariable('user_group')];
 
     $admin_exc = " AND users.user_group != 2";
 

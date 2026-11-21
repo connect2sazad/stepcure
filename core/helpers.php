@@ -721,8 +721,9 @@ function getDP(array $options = []): string
  */
 function getModulePermissions($module)
 {
+    static $cache=[]; if(isset($cache[$module]))return $cache[$module];
 
-    return [
+    return $cache[$module] = [
         'view'   => checkPermissions('view', USER_ALLOWED_PERMISSIONS, USER_GROUP_ALLOWED_PERMISSIONS),
         'create' => checkPermissions('create', USER_ALLOWED_PERMISSIONS, USER_GROUP_ALLOWED_PERMISSIONS),
         'update' => checkPermissions('update', USER_ALLOWED_PERMISSIONS, USER_GROUP_ALLOWED_PERMISSIONS),
@@ -736,6 +737,7 @@ function getModulePermissions($module)
 function renderModuleTabs($module, $activeCount, $trashCount, $customTabs = [], $showDefaults = true)
 {
     $perm = getModulePermissions($module);
+    admin_list_controls();
 
     $tabs = [];
     $usedIndexes = [];
@@ -850,9 +852,10 @@ function renderPermissionAwareTable($module, $rows, $columns, $actions = [], $ro
 {
     // ✅ Fetch module permissions
     $perm = getModulePermissions($module);
+    admin_list_controls();
 
     echo '<div class="table-responsive">';
-    echo '<table class="table table-striped">';
+    echo '<table class="table table-striped" data-server-page="' . (!empty($GLOBALS['sc_list_pages']) ? '1' : '0') . '">';
     // echo '<table class="table table-striped table-responsive">';
 
     // ✅ Table header
@@ -867,7 +870,7 @@ function renderPermissionAwareTable($module, $rows, $columns, $actions = [], $ro
     echo '<tbody>';
 
     if (!empty($rows) && count($rows) > 0) {
-        $SL = 1;
+        $pageKey=$rows[0]['__sc_page_key']??null; $SL = $pageKey ? ($GLOBALS['sc_list_pages'][$pageKey]['offset']??0)+1 : 1;
         foreach ($rows as $row) {
             $rowId = htmlspecialchars($row[$rowIdKey]);
             echo '<tr>';
@@ -981,6 +984,7 @@ function renderPermissionAwareTable($module, $rows, $columns, $actions = [], $ro
     }
 
     echo '</tbody></table>';
+    admin_list_pager($rows);
     echo '</div>';
 }
 

@@ -6,13 +6,16 @@ function updateStock() {
     const newQuantity = currentQuantity + increaseQuantity;
     const amount = parseFloat($('#discounted_price').val());
     $('#quantity').val(newQuantity);
-    $('#amount').val(increaseQuantity * amount.toFixed(2));
+    $('#amount').val((increaseQuantity * amount).toFixed(2));
 }
 
 // Update site_id_value when site_id_select changes
 function updateSiteIdValue() {
     const siteId = $('#site_id_select').val();
     $('#site_id_value').val(siteId);
+    const selected = document.querySelector('#site_id_select option:checked');
+    $('#current_quantity').val(selected?.dataset.quantity || 0);
+    updateStock();
 }
 
 

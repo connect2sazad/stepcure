@@ -1,7 +1,7 @@
 <?php
 
-$address_states_list = fetchAsArray(getAddressStatesList());
-$trashed_address_states = fetchAsArray(getTrashedAddressStatesList());
+$address_states_list = admin_list_fetch(fn()=>getAddressStatesList(), 'address_states', 'address_states_list');
+$trashed_address_states = admin_list_fetch(fn()=>getTrashedAddressStatesList(), 'address_states', 'trashed_address_states');
 
 
 // Column definitions
@@ -41,8 +41,8 @@ $columns = [
 ];
 
 // Counts
-$activeCount = count($address_states_list);
-$trashedCount = count($trashed_address_states);
+$activeCount = admin_list_total($address_states_list, 'address_states_list');
+$trashedCount = admin_list_total($trashed_address_states, 'trashed_address_states');
 ?>
 
 <div class="card-body" id="section-data">
@@ -125,7 +125,7 @@ $trashedCount = count($trashed_address_states);
                 // ✅ Reload table dynamically
                 $('#section-data').load(location.href + ' #section-data > *', function() {
                     // ✅ Re-init DataTables after reload
-                    $('table').DataTable({
+                    $('table:not([data-server-page="1"])').DataTable({
                         destroy: true,
                         select: true
                     });

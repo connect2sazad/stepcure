@@ -55,14 +55,11 @@ $avatar_border_gradient = "conic-gradient($treatment_site_color 0deg 120deg, $us
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <!-- Search -->
         <div class="navbar-nav align-items-center">
-            <div class="nav-item d-flex align-items-center">
-                <i class="bx bx-search fs-4 lh-0"></i>
-                <input type="search" class="form-control border-0 shadow-none" placeholder="Search..." name="admin_global_search" aria-label="Search..." />
-            </div>
+            <form class="nav-item d-flex align-items-center gap-2" method="get" action="<?= systemVariable('SITE_HOME') ?>admin/search/"><input type="search" class="form-control border-0 shadow-none" name="q" minlength="2" maxlength="100" placeholder="Search anything..." aria-label="Search admin records and features" required><button class="btn btn-sm btn-outline-primary" type="submit" aria-label="Search"><i class="bx bx-search"></i></button></form>
         </div>
         <!-- /Search -->
 
-        <ul class="navbar-nav flex-row align-items-center ms-auto">
+        <ul class="navbar-nav flex-row align-items-center ms-auto"><li class="nav-item me-3"><a class="nav-link" href="<?= systemVariable('SITE_HOME') ?>admin/appearance/" title="Customize your admin panel">Appearance</a></li>
 
             <div class="nav-item m-2">
                 <span class="badge bg-label-dark"><?= $treatment_site_name ?></span>

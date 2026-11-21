@@ -1,5 +1,5 @@
 <div class="card-body">
-    <form id="add_new_product_category" method="POST" onsubmit="return false" enctype="multipart/form-data">
+    <form id="add_new_product_category" method="POST" onsubmit="return false" enctype="multipart/form-data"><?= sc_token() ?>
         <div class="row">
 
             <div class="col-12 col-md-6 mb-3">

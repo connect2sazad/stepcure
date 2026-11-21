@@ -10,13 +10,14 @@ if (!defined('SITE_DIR')) {
 
 function get_conn()
 {
+    static $shared_conn; if ($shared_conn instanceof mysqli) return $shared_conn;
     require_once __DIR__ . '/../config/config.php';
 
     $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD) or die('Error connecting to MySQL server.');
 
     mysqli_select_db($conn, DB) or die('Error selecting database.');
 
-    return $conn;
+    $conn->set_charset('utf8mb4'); $shared_conn=$conn; return $conn;
 }
 
 function SELECT($table_name)
@@ -153,6 +154,7 @@ function runQuery($query, $last_insert_return = false)
 {
     $conn = get_conn();
 
+    $context=$GLOBALS['sc_list_context']??null; if($context && preg_match('/\bFROM\s+`?' . preg_quote($context['table'], '/') . '`?\b/i', $query) && preg_match('/^\s*SELECT/i', $query)){return admin_page_query($query,$context);}
     $run_query = mysqli_query($conn, $query);
 
     if($last_insert_return){
@@ -164,19 +166,14 @@ function runQuery($query, $last_insert_return = false)
 
 function systemVariable($variable_name)
 {
-    // $query = "SELECT * FROM `system` WHERE `system`.`variable` = '$variable_name'";
-    $query = WHERE('systemv', 'variable', $variable_name);
-    $run_query = runQuery($query);
-    $fetch = mysqli_fetch_assoc($run_query);
-    return $fetch['value'];
+ static $settings=null;if($settings===null){$settings=[];$result=runQuery('SELECT variable,value FROM systemv');while($row=$result->fetch_assoc())$settings[$row['variable']]=$row['value'];}return $settings[$variable_name]??null;
 }
-
 function fetchAsArray($mysqliResult) {
     $data = [];
     if ($mysqliResult && mysqli_num_rows($mysqliResult) > 0) {
         while ($row = mysqli_fetch_assoc($mysqliResult)) {
-            $row['updated_by'] = getUseridById($row['updated_by']); // convert to username
-            $row['updated_at'] = formatDateTime($row['updated_at']); // pretty format
+            if(isset($row['updated_by']))$row['updated_by'] = getUseridById($row['updated_by']); // convert to username
+            if(isset($row['updated_at']))$row['updated_at'] = formatDateTime($row['updated_at']); // pretty format
             $data[] = $row;
         }
     }

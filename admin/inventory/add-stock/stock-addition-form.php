@@ -1,4 +1,4 @@
-<form id="add_stock" method="POST" onsubmit="return false;" enctype="multipart/form-data">
+<form id="add_stock" method="POST" onsubmit="return false;" enctype="multipart/form-data"><?= sc_token() ?>
     <div class="row">
         <div class="col-12 col-md-6 mb-3">
             <label class="form-label" for="product_name">Product Name</label>
@@ -15,7 +15,7 @@
 
                     while ($row = mysqli_fetch_assoc($sites_options)) {
                 ?>
-                        <option value="<?= $row['id'] ?>" <?= $user_site == $row['id'] ? 'selected' : '' ?>><?= $row['site_name'] ?> (<?= $row['site_id'] ?>)</option>
+                        <option data-quantity="<?= (int)sc_query('SELECT COALESCE(SUM(quantity),0) AS n FROM inventory WHERE product_id=? AND site_id=?','ii',[$product['id'],$row['id']])->get_result()->fetch_assoc()['n'] ?>" value="<?= $row['id'] ?>" <?= $user_site == $row['id'] ? 'selected' : '' ?>><?= $row['site_name'] ?> (<?= $row['site_id'] ?>)</option>
                 <?php
                     }
                 } else {
@@ -38,17 +38,17 @@
             <input class="form-control" type="text" id="quantity" value="<?= $inventory['quantity']+1 ?>" readonly>
         </div>
         <div class="col-12 col-md-6 mb-3">
-            <input type="hidden" id="discounted_price" value="<?= $product['discounted_price'] ?>">
+            <input type="hidden" id="discounted_price" value="<?= sc_price($product)/100 ?>">
             <label class="form-label" for="amount">Change Amount</label>
             <div class="input-group">
                 <span class="input-group-text" id="price-symbol1">₹</span>
-                <input type="number" class="form-control" step="0.01" id="amount" placeholder="Amount" name="Amount" value="<?= $product['discounted_price'] ?>" readonly>
+                <input type="number" class="form-control" step="0.01" id="amount" placeholder="Amount" name="Amount" value="<?= sc_price($product)/100 ?>" readonly>
             </div>
             <span id="price_display"></span>
         </div>
         <div class="col-12 col-md-12 mb-3">
             <label class="form-label" for="invoice">File Upload</label>
-            <input class="form-control" type="file" id="invoice" name="invoice" accept="images/*,.pdf" data-info="invoice">
+            <input class="form-control" type="file" id="invoice" name="invoice" accept="image/*,.pdf" data-info="invoice">
             <span class="text-muted">* Max File Size: 1MB</span><br>
             <span class="text-muted">* Accepted File Types: Images/PDFs</span>
         </div>

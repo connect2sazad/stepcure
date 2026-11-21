@@ -10,3 +10,13 @@ require_once __DIR__ . '/addon-functions.php';
 require_once __DIR__ . '/functions-support.php';
 require_once __DIR__ . '/pdf_helper.php';
 require_once __DIR__ . '/storefront.php';
+
+require_once __DIR__ . '/stock.php';
+
+require_once __DIR__ . '/catalog.php';
+
+require_once __DIR__ . '/admin-performance.php';
+
+require_once __DIR__ . '/admin-appearance.php';
+
+require_once __DIR__ . '/admin-console.php';

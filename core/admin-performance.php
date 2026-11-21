@@ -1,0 +1,17 @@
+<?php
+function admin_list_fetch($loader,$table,$key) {
+ $old=$GLOBALS['sc_list_context']??null;$GLOBALS['sc_list_context']=['table'=>$table,'key'=>$key];
+ try{$result=$loader();}finally{$GLOBALS['sc_list_context']=$old;}$rows=fetchAsArray($result);
+ foreach($rows as &$row)$row['__sc_page_key']=$key;unset($row);return $rows;
+}
+function admin_page_query($sql,$context) {
+ $db=get_conn();$base=rtrim(trim($sql),';');$key=$context['key'];$size=in_array((int)($_GET['list_size']??25),[25,50,100],true)?(int)($_GET['list_size']??25):25;$q=mb_substr(trim($_GET['list_q']??''),0,100);
+ $meta=$db->query('SELECT * FROM ('.$base.') sc_page LIMIT 0');$fieldObjects=$meta->fetch_fields();$allFields=array_map(fn($f)=>$f->name,$fieldObjects);$fields=[];foreach($fieldObjects as $f){if(preg_match('/name|slug|email|phone|^id$|userid|patientid|invoiceid|saleid|site_id|uhid|number/i',$f->name)&&!preg_match('/password|secret|token/i',$f->name))$fields[]=$f->name;}
+ $where='';if($q!==''&&$fields){$needle=$db->real_escape_string('%'.addcslashes($q,'%_\\').'%');$parts=[];foreach($fields as $field)$parts[]='CAST(`'.str_replace('`','``',$field).'` AS CHAR) LIKE \''.$needle.'\'';$where=' WHERE ('.implode(' OR ',$parts).')';}
+ $total=(int)$db->query('SELECT COUNT(*) n FROM ('.$base.') sc_page')->fetch_assoc()['n'];$filtered=$where?(int)$db->query('SELECT COUNT(*) n FROM ('.$base.') sc_page'.$where)->fetch_assoc()['n']:$total;$pages=max(1,(int)ceil($filtered/$size));$page=min($pages,max(1,(int)($_GET['lp_'.$key]??1)));$offset=($page-1)*$size;
+ $sort=in_array((string)($_GET['list_sort']??''),$allFields,true)?$_GET['list_sort']:(in_array('id',$allFields,true)?'id':$allFields[0]);$direction=($_GET['list_dir']??'desc')==='asc'?'ASC':'DESC';$order=' ORDER BY `'.str_replace('`','``',$sort).'` '.$direction;$GLOBALS['sc_list_pages'][$key]=compact('key','size','q','total','filtered','pages','page','offset');
+ return $db->query('SELECT * FROM ('.$base.') sc_page'.$where.$order.' LIMIT '.$size.' OFFSET '.$offset);
+}
+function admin_list_total($rows,$key=null){$key=$key??($rows[0]['__sc_page_key']??null);return $key?($GLOBALS['sc_list_pages'][$key]['total']??count($rows)):count($rows);}
+function admin_list_controls(){if(empty($GLOBALS['sc_list_pages'])||!empty($GLOBALS['sc_controls_shown']))return;$GLOBALS['sc_controls_shown']=true;echo '<form method="get" class="sc-list-tools"><label>Search all records <input type="search" name="list_q" value="'.sc_e($_GET['list_q']??'').'" placeholder="Name, ID, email or phone"></label><label>Rows per page <select name="list_size">';foreach([25,50,100] as $size)echo '<option value="'.$size.'" '.((int)($_GET['list_size']??25)===$size?'selected':'').'>'.$size.'</option>';echo '</select></label><button class="btn btn-primary">Search</button><a href="?">Reset</a></form>';}
+function admin_list_pager($rows){$key=$rows[0]['__sc_page_key']??null;$p=$key?($GLOBALS['sc_list_pages'][$key]??null):null;if(!$p)return;echo '<nav class="sc-list-pager" aria-label="List pagination"><span>'.($p['filtered']?$p['offset']+1:0).'–'.min($p['offset']+count($rows),$p['filtered']).' of '.$p['filtered'].' records · page '.$p['page'].' / '.$p['pages'].'</span>';foreach(['Previous'=>max(1,$p['page']-1),'Next'=>min($p['pages'],$p['page']+1)] as $label=>$page){$query=$_GET;$query['lp_'.$key]=$page;echo '<a class="btn btn-sm btn-outline-primary" href="?'.sc_e(http_build_query($query)).'">'.$label.'</a>';}echo '</nav>';}

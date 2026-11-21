@@ -1,8 +1,8 @@
 <?php
 
 // Fetch Active & Trashed
-$active_users = fetchAsArray(getUsersListDetailed());
-$trashed_users = fetchAsArray(getTrashedUsersListDetailed());
+$active_users = admin_list_fetch(fn()=>getUsersListDetailed(), 'users', 'active_users');
+$trashed_users = admin_list_fetch(fn()=>getTrashedUsersListDetailed(), 'users', 'trashed_users');
 
 // Columns for the table
 $columns = [
@@ -93,8 +93,8 @@ $columns = [
 
 
 // Counts
-$activeCount  = count($active_users);
-$trashedCount = count($trashed_users);
+$activeCount  = admin_list_total($active_users, 'active_users');
+$trashedCount = admin_list_total($trashed_users, 'trashed_users');
 ?>
 <div class="card-body" id="section-data">
 
@@ -188,7 +188,7 @@ $trashedCount = count($trashed_users);
                     // ✅ Reload table section only
                     // ✅ Reload table dynamically + re-init DataTables
                     $('#section-data').load(location.href + ' #section-data > *', function() {
-                        $('table').DataTable({
+                        $('table:not([data-server-page="1"])').DataTable({
                             destroy: true,
                             select: true
                         });

@@ -18,6 +18,9 @@ sideBar___init($active_menu, $user_allowed_permissions, $is_super_admin);
 function sideBar___init($active_page, $allowed_permissions, $is_super_admin)
 {
     $menus = [
+        ['title'=>'Online Users','icon'=>'menu-icon tf-icons bx bx-user-circle','link'=>SITE_URL.'admin/online-users/','permission'=>'sale'],
+        ['title'=>'Online Orders','icon'=>'menu-icon tf-icons bx bx-shopping-bag','link'=>SITE_URL.'admin/online-orders/','permission'=>'sale'],
+        ['title'=>'Appearance','icon'=>'menu-icon tf-icons bx bx-palette','link'=>SITE_URL.'admin/appearance/','permission'=>'dashboard'],
         [
             'title' => 'Dashboard',
             'icon'  => 'menu-icon tf-icons bx bx-home-circle',
@@ -156,8 +159,8 @@ function sideBar($menus, $active_page, $allowed_permissions, $is_super_admin)
     echo '
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
             <div class="app-brand demo">
-                <a href="https://www.lyncdigit.com" target="_blank" class="app-brand-link mt-3 mb-3">
-                    <img src="https://lyncdigit.com/lyncdigit.png" alt="Lyncdigit">
+                <a href="' . SITE_URL . 'admin/" class="app-brand-link mt-3 mb-3">
+                    <span style="font-weight:700;font-size:20px;color:inherit">StepCure</span>
                 </a>
 
                 <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">

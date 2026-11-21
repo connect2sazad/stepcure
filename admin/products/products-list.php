@@ -1,7 +1,7 @@
 <?php
 
-$products_list = fetchAsArray(getProductsList());
-$trashed_products = fetchAsArray(getTrashedProductsList());
+$products_list = admin_list_fetch(fn()=>getProductsList(), 'products', 'products_list');
+$trashed_products = admin_list_fetch(fn()=>getTrashedProductsList(), 'products', 'trashed_products');
 
 
 // Column definitions
@@ -96,8 +96,8 @@ $columns = [
 ];
 
 // Counts
-$activeCount = count($products_list);
-$trashedCount = count($trashed_products);
+$activeCount = admin_list_total($products_list, 'products_list');
+$trashedCount = admin_list_total($trashed_products, 'trashed_products');
 ?>
 
 <div class="card-body" id="section-data">
@@ -180,7 +180,7 @@ $trashedCount = count($trashed_products);
                 // ✅ Reload table dynamically
                 $('#section-data').load(location.href + ' #section-data > *', function() {
                     // ✅ Re-init DataTables after reload
-                    $('table').DataTable({
+                    $('table:not([data-server-page="1"])').DataTable({
                         destroy: true,
                         select: true
                     });

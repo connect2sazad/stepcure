@@ -1,8 +1,8 @@
 <?php
 
 // Fetch Active & Trashed
-$active_patients = fetchAsArray(getPatientsList());
-$trashed_patients = fetchAsArray(getTrashedPatientsList());
+$active_patients = admin_list_fetch(fn()=>getPatientsList(), 'patients', 'active_patients');
+$trashed_patients = admin_list_fetch(fn()=>getTrashedPatientsList(), 'patients', 'trashed_patients');
 
 // Columns for the table
 $columns = [
@@ -85,8 +85,8 @@ $columns = [
 ];
 
 // Counts
-$activeCount  = count($active_patients);
-$trashedCount = count($trashed_patients);
+$activeCount  = admin_list_total($active_patients, 'active_patients');
+$trashedCount = admin_list_total($trashed_patients, 'trashed_patients');
 ?>
 <div class="card">
     <div class="card-body" id="section-data">
@@ -181,7 +181,7 @@ $trashedCount = count($trashed_patients);
                     // ✅ Reload table section only
                     // ✅ Reload table dynamically + re-init DataTables
                     $('#section-data').load(location.href + ' #section-data > *', function() {
-                        $('table').DataTable({
+                        $('table:not([data-server-page="1"])').DataTable({
                             destroy: true,
                             select: true
                         });

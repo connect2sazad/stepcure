@@ -1,8 +1,8 @@
 <?php
 
 // Fetch Active & Trashed
-$active_designations = fetchAsArray(getUserDesignationsList());
-$trashed_designations = fetchAsArray(getTrashedUserDesignationsList());
+$active_designations = admin_list_fetch(fn()=>getUserDesignationsList(), 'user_designations', 'active_designations');
+$trashed_designations = admin_list_fetch(fn()=>getTrashedUserDesignationsList(), 'user_designations', 'trashed_designations');
 
 // Columns for the table
 $columns = [
@@ -20,8 +20,8 @@ $columns = [
 ];
 
 // Counts
-$activeCount  = count($active_designations);
-$trashedCount = count($trashed_designations);
+$activeCount  = admin_list_total($active_designations, 'active_designations');
+$trashedCount = admin_list_total($trashed_designations, 'trashed_designations');
 ?>
 
 <div class="card-body" id="section-data">
@@ -107,7 +107,7 @@ async function takeAction(action, id) {
 
             // ✅ Reload table dynamically + re-init DataTables
             $('#section-data').load(location.href + ' #section-data > *', function() {
-                $('table').DataTable({
+                $('table:not([data-server-page="1"])').DataTable({
                     destroy: true,
                     select: true
                 });

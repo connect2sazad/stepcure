@@ -1,3 +1,4 @@
+<div class="alert alert-info">Online orders use stock from the configured default site (ID <?= (int)sc_stock_site() ?>). Add stock below before offering products online. Orders deduct stock automatically and record outgoing movements. Cancelling a placed online order restores stock once. <a href="../online-orders/">View online orders</a></div>
 <?php
 
 // get site of the current user
@@ -5,14 +6,14 @@ $current_site = userVariable('treatment_site');
 $current_site_exists = $current_site && $current_site > 0;
 
 // Fetch Inventory Data for user's site
-$my_site_inventory = fetchAsArray(getInventoryBySiteId($current_site_exists ? $current_site : null));
+$my_site_inventory = admin_list_fetch(fn()=>getInventoryBySiteId($current_site_exists ? $current_site : null), 'inventory', 'my_site_inventory');
 
 // Fetch Inventory Data for all sites
-$all_sites_inventory = fetchAsArray(getInventoryBySiteId());
+$all_sites_inventory = admin_list_fetch(fn()=>getInventoryBySiteId(), 'inventory', 'all_sites_inventory');
 
 // Fetch Inventory Data for central hub
 $central_hub_site_id = systemVariable('default_site_id');
-$central_hub_site_inventory = fetchAsArray(getInventoryBySiteId($central_hub_site_id));
+$central_hub_site_inventory = admin_list_fetch(fn()=>getInventoryBySiteId($central_hub_site_id), 'inventory', 'central_hub_site_inventory');
 
 $current_inventory_value = getCurrentInventoryValueBySiteId($current_site_exists ? $current_site : null);
 

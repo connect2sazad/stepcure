@@ -13,7 +13,7 @@ $pathology = json_decode($product['pathology'], true);
 ?>
 <div class="card-body">
 
-    <form id="update_product" method="POST" onsubmit="return false" enctype="multipart/form-data">
+    <form id="update_product" method="POST" onsubmit="return false" enctype="multipart/form-data"><?= sc_token() ?>
 
         <div class="row">
             <div class="col-12 col-md-6 mb-3">
@@ -50,7 +50,7 @@ $pathology = json_decode($product['pathology'], true);
                 <select name="type" id="type" class="form-control" required>
                     <option value="0" <?= $product['type'] == '0' ? 'selected' : '' ?>>Women's Footwear</option>
                     <option value="1" <?= $product['type'] == '1' ? 'selected' : '' ?>>Men's Footwear</option>
-                    <option value="2" <?= $product['type'] == '2' ? 'selected' : '' ?>>Foot Orthotics</option>
+                    <option value="2" <?= $product['type'] == '2' ? 'selected' : '' ?>>Foot Orthotics</option><option value="3" <?= $product['type'] == '3' ? 'selected' : '' ?>>Custom Footwear</option>
                 </select>
             </div>
 
@@ -105,11 +105,11 @@ $pathology = json_decode($product['pathology'], true);
                     <div class="row align-items-center product-detail" id="product_details0">
                         <div class="col-12 col-md-5 mb-3">
                             <label class="form-label" for="details_name0">Detail Name</label>
-                            <input type="text" class="form-control" id="details_name0" placeholder="Detail Name" name="details_name[]" required>
+                            <input type="text" class="form-control" id="details_name0" placeholder="Detail Name" name="details_name[]">
                         </div>
                         <div class="col-12 col-md-6 mb-3">
                             <label class="form-label" for="details_value0">Detail Value</label>
-                            <input type="text" class="form-control" id="details_value0" placeholder="Detail Value" name="details_value[]" required>
+                            <input type="text" class="form-control" id="details_value0" placeholder="Detail Value" name="details_value[]">
                         </div>
                         <div class="col-12 col-md-1 mt-2 d-flex align-items-center justify-content-center">
                             <button type="button" class="btn btn-outline-danger remove-detail ms-md-2">
@@ -162,11 +162,11 @@ $pathology = json_decode($product['pathology'], true);
                     <div class="row align-items-center product-technology" id="product_technology0">
                         <div class="col-12 col-md-5 mb-3">
                             <label class="form-label" for="technology_name0">Technology Name</label>
-                            <input type="text" class="form-control" id="technology_name0" placeholder="Technology Name" name="technology_name[]" required>
+                            <input type="text" class="form-control" id="technology_name0" placeholder="Technology Name" name="technology_name[]">
                         </div>
                         <div class="col-12 col-md-6 mb-3">
                             <label class="form-label" for="technology_description0">Technology Value</label>
-                            <input type="text" class="form-control" id="technology_description0" placeholder="Technology Value" name="technology_description[]" required>
+                            <input type="text" class="form-control" id="technology_description0" placeholder="Technology Value" name="technology_description[]">
                         </div>
                         <div class="col-12 col-md-1 mt-2 d-flex align-items-center justify-content-center">
                             <button type="button" class="btn btn-outline-danger remove-technology ms-md-2">
@@ -220,11 +220,11 @@ $pathology = json_decode($product['pathology'], true);
                     <div class="row align-items-center product-feature" id="product_features0">
                         <div class="col-12 col-md-5 mb-3">
                             <label class="form-label" for="features_name0">Feature Name</label>
-                            <input type="text" class="form-control" id="features_name0" placeholder="Feature Name" name="features_name[]" required>
+                            <input type="text" class="form-control" id="features_name0" placeholder="Feature Name" name="features_name[]">
                         </div>
                         <div class="col-12 col-md-6 mb-3">
                             <label class="form-label" for="features_value0">Feature Value</label>
-                            <input type="text" class="form-control" id="features_value0" placeholder="Feature Value" name="features_value[]" required>
+                            <input type="text" class="form-control" id="features_value0" placeholder="Feature Value" name="features_value[]">
                         </div>
                         <div class="col-12 col-md-1 mt-2 d-flex align-items-center justify-content-center">
                             <button type="button" class="btn btn-outline-danger remove-feature ms-md-2">
@@ -277,11 +277,11 @@ $pathology = json_decode($product['pathology'], true);
                     <div class="row align-items-center product-pathology" id="product_pathology0">
                         <div class="col-12 col-md-5 mb-3">
                             <label class="form-label" for="pathology_name0">Pathology Name</label>
-                            <input type="text" class="form-control" id="pathology_name0" placeholder="Pathology Name" name="pathology_name[]" required>
+                            <input type="text" class="form-control" id="pathology_name0" placeholder="Pathology Name" name="pathology_name[]">
                         </div>
                         <div class="col-12 col-md-6 mb-3">
                             <label class="form-label" for="pathology_description0">Pathology Value</label>
-                            <input type="text" class="form-control" id="pathology_description0" placeholder="Pathology Value" name="pathology_description[]" required>
+                            <input type="text" class="form-control" id="pathology_description0" placeholder="Pathology Value" name="pathology_description[]">
                         </div>
                         <div class="col-12 col-md-1 mt-2 d-flex align-items-center justify-content-center">
                             <button type="button" class="btn btn-outline-danger remove-pathology ms-md-2">

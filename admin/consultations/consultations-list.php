@@ -2,16 +2,16 @@
 
 $site_id = userVariable('treatment_site');
 
-$my_consultations = fetchAsArray((getConsultationsByUserId()));
+$my_consultations = admin_list_fetch(fn()=>(getConsultationsByUserId()), 'consultations', 'my_consultations');
 if ($site_id) {
-    $site_consultations = fetchAsArray(getConsultationsListBySiteId($site_id));
+    $site_consultations = admin_list_fetch(fn()=>getConsultationsListBySiteId($site_id), 'consultations', 'site_consultations');
 } else {
-    $site_consultations = fetchAsArray(getConsultationsList());
+    $site_consultations = admin_list_fetch(fn()=>getConsultationsList(), 'consultations', 'site_consultations');
 }
 
 // Fetch Active & Trashed
-$active_consultations = fetchAsArray(getConsultationsList());
-$trashed_consultations = fetchAsArray(getTrashedConsultationsListBySiteId($site_id));
+$active_consultations = admin_list_fetch(fn()=>getConsultationsList(), 'consultations', 'active_consultations');
+$trashed_consultations = admin_list_fetch(fn()=>getTrashedConsultationsListBySiteId($site_id), 'consultations', 'trashed_consultations');
 
 // Columns for the table
 $columns = [
@@ -192,10 +192,10 @@ $columns = [
 ];
 
 // Counts
-$my_consultationsCount  = count($my_consultations);
-$site_consultationsCount  = count($site_consultations);
-$activeCount  = count($active_consultations);
-$trashedCount = count($trashed_consultations);
+$my_consultationsCount  = admin_list_total($my_consultations, 'my_consultations');
+$site_consultationsCount  = admin_list_total($site_consultations, 'site_consultations');
+$activeCount  = admin_list_total($active_consultations, 'active_consultations');
+$trashedCount = admin_list_total($trashed_consultations, 'trashed_consultations');
 ?>
 <div class="card">
     <div class="card-body" id="section-data">
@@ -339,7 +339,7 @@ $trashedCount = count($trashed_consultations);
                     // ✅ Reload table section only
                     // ✅ Reload table dynamically + re-init DataTables
                     $('#section-data').load(location.href + ' #section-data > *', function() {
-                        $('table').DataTable({
+                        $('table:not([data-server-page="1"])').DataTable({
                             destroy: true,
                             select: true
                         });
