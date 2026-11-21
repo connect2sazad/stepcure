@@ -54,6 +54,9 @@ if (isset($_SESSION[CLIENT_USER_AUTH]) && !empty($_SESSION[CLIENT_USER_AUTH])) {
     <!-- custom CSS -->
     <link rel="stylesheet" href="<?= theme_url('assets/css/custom.css') ?>">
 
+    <?php if (($page ?? '') === 'home'): ?><link rel="stylesheet" href="<?= theme_url('assets/css/movement.css') ?>"><?php endif; ?>
+    <link rel="stylesheet" href="<?= theme_url('assets/css/experience.css') ?>">
+    <script defer src="<?= theme_url('assets/js/experience.js') ?>"></script>
     <!-- Fireworks.js CDN -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/fireworks-js@2.10.8/dist/index.umd.min.js"></script>
     <style>
@@ -116,7 +119,7 @@ if (isset($_SESSION[CLIENT_USER_AUTH]) && !empty($_SESSION[CLIENT_USER_AUTH])) {
     </style> -->
 </head>
 
-<body>
+<body class="sc-site <?= ($page ?? '') === 'home' ? 'sc-home' : 'sc-inner' ?>">
     <!-- <div id="fireworks-container"></div>
     <div id="diwali-text">
         <div class="diwali-message">Happy Diwali!</div>
@@ -151,92 +154,5 @@ if (isset($_SESSION[CLIENT_USER_AUTH]) && !empty($_SESSION[CLIENT_USER_AUTH])) {
 
 
     <!--::header part start::-->
-    <header class="main_menu <?= $page == 'home' ? 'home_menu' : '' ?>">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-12">
-                    <nav class="navbar navbar-expand-lg navbar-light">
-                        <a class="navbar-brand" href="<?= systemVariable('SITE_HOME') ?>"> <img src="<?= systemVariable('SITE_HOME') . 'uploads/' . systemVariable('SITE_LOGO') ?>" alt="logo">
-                            <div class="brand-name"> <?= systemVariable('SITE_NAME') ?> </div>
-                        </a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse"
-                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-
-                        <div class="collapse navbar-collapse main-menu-item justify-content-center"
-                            id="navbarSupportedContent">
-                            <ul class="navbar-nav align-items-center">
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="<?= systemVariable('SITE_HOME') ?>">Home</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="<?= systemVariable('SITE_HOME') ?>about">About</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="<?= systemVariable('SITE_HOME') ?>services">Services</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="<?= systemVariable('SITE_HOME') ?>products">Products</a>
-                                </li>
-
-                                <!--<li class="nav-item">-->
-                                <!--    <a class="nav-link" href="< ?= systemVariable('SITE_HOME') ?>products">Products</a>-->
-                                <!--</li>-->
-                                <!--<li class="nav-item">-->
-                                <!--    <a class="nav-link" href="< ?= systemVariable('SITE_HOME') ?>products">Products</a>-->
-                                <!--</li>-->
-                                <!-- <li class="nav-item">
-                                    <a class="nav-link" href="#Doctor.html">Doctors</a>
-                                </li> -->
-
-                                <!-- <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#blog.html" id="navbarDropdown"
-                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Pages
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="#services.html">services</a>
-                                        <a class="dropdown-item" href="#dep.html">depertments</a>
-                                        <a class="dropdown-item" href="#elements.html">Elements</a>
-                                    </div>
-                                </li> -->
-                                <!-- <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#blog.html" id="navbarDropdown_1"
-                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        blog
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                                        <a class="dropdown-item" href="#blog.html">blog</a>
-                                        <a class="dropdown-item" href="#single-blog.html">Single blog</a>
-                                    </div>
-                                </li> -->
-
-                                <li class="nav-item">
-                                    <a class="nav-link" href="<?= systemVariable('SITE_HOME') ?>contact">Contact</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <?php if (!$online_user): ?>
-                            <a class="btn_2 d-none d-lg-block" href="<?= systemVariable('SITE_HOME') ?>signin">Login / Signup</a>
-                        <?php else: ?>
-                            <div class="btn-group" role="group">
-                                <button id="btnGroupDrop1" type="button" class="btn_2 p-2 px-4 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <?= $online_user_first_name ?>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                    <a class="dropdown-item" href="<?= systemVariable('SITE_HOME') ?>cart">Cart</a>
-                                    <a class="dropdown-item" href="<?= systemVariable('SITE_HOME') ?>members">Members</a>
-                                    <a class="dropdown-item" href="<?= systemVariable('SITE_HOME') ?>settings">Settings</a>
-                                    <a class="dropdown-item" href="<?= systemVariable('SITE_HOME') ?>logout">Logout</a>
-                                </div>
-                            </div>
-                            <!-- <a class="btn_2 d-none d-lg-block" href="<?= systemVariable('SITE_HOME') ?>logout">Logout</a> -->
-                        <?php endif; ?>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </header>
+    <?php include __DIR__ . '/experience-shell.php'; ?>
     <!-- Header part end-->

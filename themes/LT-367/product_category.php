@@ -121,7 +121,7 @@ if(!$category) {
                                 alt="Product 1">
                         </div>
                         <div class="card-body">
-                            <a class="product-title card-title text-break fw-bold" href="http://127.0.0.1/stepcure/products/women-s-footwear/baptisia">Baptisia</a>
+                            <a class="product-title card-title text-break fw-bold" href="<?= rtrim(systemVariable('SITE_HOME'), '/') ?>/products/women-s-footwear/baptisia">Baptisia</a>
 
                             <!-- ⭐ Rating -->
                             <div class="product-rating mb-2">

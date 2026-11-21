@@ -60,6 +60,7 @@
     </div>
 </div>
 <!-- product categories end -->
+<div class="sc-medical-strip"><span>PERSONALIZED FIT</span><span>FOOTCARE-LED DESIGN</span><span>EVERYDAY COMFORT</span><span>CLINICAL GUIDANCE</span></div>
 
 
 

@@ -5,7 +5,7 @@
             <div class="col-lg-12">
                 <div class="breadcrumb_iner">
                     <div class="breadcrumb_iner_item">
-                        <h2>contact</h2>
+                        <h2>Find your<br>way forward.</h2>
                     </div>
                 </div>
             </div>
@@ -17,47 +17,7 @@
 <!-- ================ contact section start ================= -->
 <section class="contact-section section_padding">
     <div class="container">
-        <div class="d-none d-sm-block mb-5 pb-4">
-            <div id="map" style="height: 480px;"></div>
-            <script>
-                function initMap() {
-                    var uluru = {
-                        lat: -25.363,
-                        lng: 131.044
-                    };
-                    var grayStyles = [{
-                            featureType: "all",
-                            stylers: [{
-                                    saturation: -90
-                                },
-                                {
-                                    lightness: 50
-                                }
-                            ]
-                        },
-                        {
-                            elementType: 'labels.text.fill',
-                            stylers: [{
-                                color: '#ccdee9'
-                            }]
-                        }
-                    ];
-                    var map = new google.maps.Map(document.getElementById('map'), {
-                        center: {
-                            lat: -31.197,
-                            lng: 150.744
-                        },
-                        zoom: 9,
-                        styles: grayStyles,
-                        scrollwheel: false
-                    });
-                }
-            </script>
-            <script
-                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpfS1oRGreGSBU5HHjMmQ3o5NLw7VdJ6I&callback=initMap">
-            </script>
-
-        </div>
+        <div class="sc-visit-card"><span class="sc-page-kicker">YOUR NEXT STEP</span><h2>Good movement begins<br>with a conversation.</h2><p>Talk to our team about clinical care, custom orthotics or finding the right footwear.</p><a href="tel:+919861572334">Call +91 98615 72334 ↗</a><span class="sc-orbit-label" aria-hidden="true">CARE THAT<br>COMES FULL CIRCLE</span></div>
 
 
         <div class="row">
@@ -71,26 +31,26 @@
                         <div class="col-12">
                             <div class="form-group">
 
-                                <textarea class="form-control w-100" name="message" id="message" cols="30" rows="9"
+                                <textarea class="form-control w-100" name="message" id="message" aria-label="Your message" cols="30" rows="9"
                                     onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'"
                                     placeholder='Enter Message'></textarea>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <input class="form-control" name="name" id="name" type="text" onfocus="this.placeholder = ''"
+                                <input class="form-control" name="name" id="name" aria-label="Your name" type="text" onfocus="this.placeholder = ''"
                                     onblur="this.placeholder = 'Enter your name'" placeholder='Enter your name'>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <input class="form-control" name="email" id="email" type="email" onfocus="this.placeholder = ''"
+                                <input class="form-control" name="email" id="email" aria-label="Email address" type="email" onfocus="this.placeholder = ''"
                                     onblur="this.placeholder = 'Enter email address'" placeholder='Enter email address'>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
-                                <input class="form-control" name="subject" id="subject" type="text" onfocus="this.placeholder = ''"
+                                <input class="form-control" name="subject" id="subject" aria-label="Subject" type="text" onfocus="this.placeholder = ''"
                                     onblur="this.placeholder = 'Enter Subject'" placeholder='Enter Subject'>
                             </div>
                         </div>

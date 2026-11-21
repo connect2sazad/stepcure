@@ -273,7 +273,7 @@
                 <div class="depertment_content">
                     <div class="row justify-content-center">
                         <div class="col-xl-8">
-                            <h2>Our Depertment</h2>
+                            <h2>Our Departments</h2>
                             <div class="row">
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="single_our_depertment">
@@ -317,3 +317,5 @@
     </div>
 </section>
 <!-- our depertment part end-->
+
+<div class="sc-medical-strip"><span>ASSESSMENT</span><span>INDIVIDUAL GUIDANCE</span><span>PERSONALIZED SUPPORT</span><a href="<?= systemVariable('SITE_HOME') ?>contact">PLAN YOUR VISIT ↗</a></div>
